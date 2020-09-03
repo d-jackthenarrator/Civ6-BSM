@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Players>
+		<Row>
+			<Domain>Players:Observer</Domain>
+			<CivilizationType>CIVILIZATION_SPECTATOR</CivilizationType>
+			<LeaderType>LEADER_SPECTATOR</LeaderType>
+			<CivilizationName>LOC_CIVILIZATION_SPECTATOR_NAME</CivilizationName>
+			<CivilizationIcon>ICON_CIVILIZATION_SPECTATOR</CivilizationIcon>
+			<LeaderName>LOC_LEADER_SPECTATOR_NAME</LeaderName>
+			<LeaderIcon>ICON_LEADER_DEFAULT</LeaderIcon>
+			<CivilizationAbilityName>LOC_TRAIT_CIVILIZATION_SPECTATOR_NAME</CivilizationAbilityName>
+			<CivilizationAbilityDescription>LOC_TRAIT_CIVILIZATION_SPECTATOR_DESCRIPTION</CivilizationAbilityDescription>
+			<CivilizationAbilityIcon>ICON_CIVILIZATION_SPECTATOR</CivilizationAbilityIcon>
+			<LeaderAbilityName>LOC_TRAIT_LEADER_SPECTATOR_NAME</LeaderAbilityName>
+			<LeaderAbilityDescription>LOC_TRAIT_LEADER_SPECTATOR_DESCRIPTION</LeaderAbilityDescription>
+			<LeaderAbilityIcon>ICON_LEADER_DEFAULT</LeaderAbilityIcon>
+			<Portrait>LEADER_SPECTATOR_NEUTRAL</Portrait>
+			<HumanPlayable>0</HumanPlayable>
+		</Row>
+		<!-- Expansion2 Support Players:Expansion2_Players -->
+		<Row>
+			<Domain>Players:Expansion2_Players</Domain>
+			<CivilizationType>CIVILIZATION_SPECTATOR</CivilizationType>
+			<LeaderType>LEADER_SPECTATOR</LeaderType>
+			<CivilizationName>LOC_CIVILIZATION_SPECTATOR_NAME</CivilizationName>
+			<CivilizationIcon>ICON_CIVILIZATION_SPECTATOR</CivilizationIcon>
+			<LeaderName>LOC_LEADER_SPECTATOR_NAME</LeaderName>
+			<LeaderIcon>ICON_LEADER_DEFAULT</LeaderIcon>
+			<CivilizationAbilityName>LOC_TRAIT_CIVILIZATION_SPECTATOR_NAME</CivilizationAbilityName>
+			<CivilizationAbilityDescription>LOC_TRAIT_CIVILIZATION_SPECTATOR_DESCRIPTION</CivilizationAbilityDescription>
+			<CivilizationAbilityIcon>ICON_CIVILIZATION_SPECTATOR</CivilizationAbilityIcon>
+			<LeaderAbilityName>LOC_TRAIT_LEADER_SPECTATOR_NAME</LeaderAbilityName>
+			<LeaderAbilityDescription>LOC_TRAIT_LEADER_SPECTATOR_DESCRIPTION</LeaderAbilityDescription>
+			<LeaderAbilityIcon>ICON_LEADER_DEFAULT</LeaderAbilityIcon>
+			<Portrait>LEADER_SPECTATOR_NEUTRAL</Portrait>
+			<HumanPlayable>0</HumanPlayable>
+		</Row>
+	</Players>
+</GameData>

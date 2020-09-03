@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <BaseGameText>
+        <!-- General -->
+        <Row Tag="LOC_EMR_TITLE">
+            <Text>Even More Reports</Text>
+        </Row>
+        <Row Tag="LOC_REPORTS_LIST_EMR">
+            <Text>More Reports:</Text>
+        </Row>
+        <Row Tag="LOC_EMR_REPORTS_TITLE">
+            <Text>Reports Cont.</Text>
+        </Row>
+        <Row Tag="LOC_EMR_PARAM_HIDE_UNMET_CIVS">
+            <Text>Hide Unmet Civs:</Text>
+        </Row>
+        <Row Tag="LOC_EMR_UNKNOWN">
+            <Text>Unknown</Text>
+        </Row>
+        <Row Tag="LOC_EMR_DEMOGRAPHICS">
+            <Text>Demographics</Text>
+        </Row>
+        <Row Tag="LOC_EMR_GRAPHS">
+            <Text>Graphs</Text>
+        </Row>
+        <!-- Diplomacy Page -->
+        <Row Tag="LOC_EMR_CIV">
+            <Text>Civilization</Text>
+        </Row>
+        <Row Tag="LOC_EMR_GOVERNMENT">
+            <Text>Government</Text>
+        </Row>
+        <Row Tag="LOC_EMR_WONDERS">
+            <Text>Wonders</Text>
+        </Row>
+        <Row Tag="LOC_EMR_DIPLOMACY">
+            <Text>Diplomacy</Text>
+        </Row>
+        <Row Tag="LOC_EMR_CIVIC_ERA">
+            <Text>Civic Era:</Text>
+        </Row>
+        <Row Tag="LOC_EMR_TECH_ERA">
+            <Text>Tech Era:</Text>
+        </Row>
+        
+        <Row Tag="LOC_EMR_TURNS">
+            <Text>turns left</Text>
+        </Row>        
+        <Row Tag="LOC_EMR_AT_WAR">
+            <Text>At war with</Text>
+        </Row>       
+        <Row Tag="LOC_EMR_FRIENDS">
+            <Text>Friends with</Text>
+        </Row>       
+        <Row Tag="LOC_EMR_ALLIED">
+            <Text>Allied with</Text>
+        </Row>        
+        <Row Tag="LOC_EMR_DENOUNCED">
+            <Text>Denounced</Text>
+        </Row>       
+        <Row Tag="LOC_EMR_DENOUNCED_BY">
+            <Text>Denounced by</Text>
+        </Row>           
+        <Row Tag="LOC_EMR_SUEZERAIN">
+            <Text>Suzerain of</Text>
+        </Row> 
+        
+        <!-- Hotkeys -->
+        <Row Tag="LOC_EMR_CONFIG_CATEGORY">
+            <Text>Even More Reports</Text>
+        </Row>
+        <Row Tag="LOC_EMR_SCREEN_HOTKEY">
+            <Text>Toggle Reports II</Text>
+        </Row>
+        <Row Tag="LOC_EMR_SCREEN_HOTKEY_DESC">
+            <Text>Toggles the Reports II Screen.</Text>
+        </Row>
+    </BaseGameText>
+</GameData>

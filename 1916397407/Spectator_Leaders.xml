@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Types>
+		<Row Type="LEADER_SPECTATOR"                 Kind="KIND_LEADER" />
+		<Row Type="TRAIT_LEADER_SPECTATOR"           Kind="KIND_TRAIT"/>
+	</Types>
+
+	<Leaders>
+		<Row>
+			<LeaderType>LEADER_SPECTATOR</LeaderType>
+			<Name>LOC_LEADER_SPECTATOR_NAME</Name>
+			<Sex>Female</Sex>
+			<InheritFrom>LEADER_DEFAULT</InheritFrom>
+		</Row>
+	</Leaders>
+	<LeaderQuotes>
+		<Row LeaderType="LEADER_SPECTATOR" Quote="LOC_LEADER_SPECTATOR_QUOTE"/>
+	</LeaderQuotes>
+	<LeaderTraits>
+		<Row LeaderType="LEADER_SPECTATOR" TraitType="TRAIT_LEADER_SPECTATOR"/>			<!-- 指導者特性 -->
+	</LeaderTraits>
+
+	<Traits>
+		<Row TraitType="TRAIT_LEADER_SPECTATOR"           Name="LOC_TRAIT_LEADER_SPECTATOR_NAME" Description="LOC_TRAIT_LEADER_SPECTATOR_DESCRIPTION"/>
+	</Traits>
+	<TraitModifiers>
+		<Row>
+			<TraitType>TRAIT_LEADER_SPECTATOR</TraitType>
+			<ModifierId>CULTURE_PRESETTLEMENT_SPEC</ModifierId>
+		</Row>
+	</TraitModifiers>
+	
+	<Modifiers>
+		<Row>
+			<ModifierId>CULTURE_PRESETTLEMENT_SPEC</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_ADJUST_YIELD_CHANGE</ModifierType>
+			<SubjectRequirementSetId>PLAYER_HAS_NO_CITIES</SubjectRequirementSetId>
+		</Row>
+	</Modifiers>
+	<ModifierArguments>
+		<Row>
+			<ModifierId>CULTURE_PRESETTLEMENT_SPEC</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_CULTURE</Value>
+		</Row>
+		<Row>
+			<ModifierId>CULTURE_PRESETTLEMENT_SPEC</ModifierId>
+			<Name>Amount</Name>
+			<Value>0</Value>
+		</Row>
+	</ModifierArguments>
+
+	<!-- AIの好み -->
+	<AiListTypes>
+		<Row ListType="SPECTATORWonders"/>
+		<Row ListType="SPECTATORCivics"/>
+		<Row ListType="SPECTATORTechs"/>
+		<Row ListType="SPECTATOREncampmentDistrict"/>
+	</AiListTypes>
+	<AiLists>
+		<!-- Buildings -->
+		<Row ListType="SPECTATORWonders"            LeaderType="TRAIT_LEADER_YNL_NAGATO" System="Buildings"/>
+		<!-- Civics -->								     
+		<Row ListType="SPECTATORCivics"             LeaderType="TRAIT_LEADER_YNL_NAGATO" System="Civics"/>
+		<!-- Techs -->								     
+		<Row ListType="SPECTATORTechs"              LeaderType="TRAIT_LEADER_YNL_NAGATO" System="Technologies"/>
+		<!-- District -->
+		<Row ListType="SPECTATOREncampmentDistrict" LeaderType="TRAIT_LEADER_YNL_NAGATO" System="Districts"/>
+	</AiLists>
+	<AiFavoredItems>
+		<!-- Buildings -->
+		<Row ListType="SPECTATORWonders"            Item="BUILDING_STONEHENGE"/>		<!-- ストーンヘンジ -->
+		<Row ListType="SPECTATORWonders"            Item="BUILDING_TERRACOTTA_ARMY"/>	<!-- 兵馬俑 -->
+		<Row ListType="SPECTATORWonders"            Item="BUILDING_ALHAMBRA"/>			<!-- アルハンブラ宮殿 -->
+		<Row ListType="SPECTATORWonders"            Item="BUILDING_RUHR_VALLEY"/>		<!-- ルール地方 -->
+		<Row ListType="SPECTATORWonders"            Item="BUILDING_BIG_BEN"/>			<!-- ビッグ・ベン -->
+		<!-- Civics -->								     
+		<Row ListType="SPECTATORCivics"             Item="CIVIC_MERCENARIES"/>			<!-- 傭兵 -->
+		<Row ListType="SPECTATORCivics"             Item="CIVIC_CIVIL_ENGINEERING"/>	<!-- 土木技術 -->
+		<Row ListType="SPECTATORCivics"             Item="CIVIC_MOBILIZATION"/>		<!-- 戦時動員 -->
+		<Row ListType="SPECTATORCivics"             Item="CIVIC_NATIONALISM"/>			<!-- ナショナリズム -->
+		<Row ListType="SPECTATORCivics"             Item="CIVIC_SCORCHED_EARTH"/>		<!-- 焦土作戦 -->
+		<!-- Techs -->
+		<Row ListType="SPECTATORTechs"              Item="TECH_BRONZE_WORKING"/>		<!-- 青銅器 -->
+		<Row ListType="SPECTATORTechs"              Item="TECH_IRON_WORKING"/>			<!-- 鉄器 -->
+		<Row ListType="SPECTATORTechs"              Item="TECH_STEEL"/>				<!-- 鋼鉄 -->
+		<Row ListType="SPECTATORTechs"              Item="TECH_GUNPOWDER" />			<!-- 火薬 -->
+		<Row ListType="SPECTATORTechs"              Item="TECH_STEAM_POWER"/>			<!-- 蒸気機関 -->
+		<Row ListType="SPECTATORTechs"              Item="TECH_ELECTRICITY"/>			<!-- 電気 -->
+		<!-- District -->
+		<Row ListType="SPECTATOREncampmentDistrict" Item="DISTRICT_ENCAMPMENT" Favored="true"/>
+	</AiFavoredItems>
+
+	<HistoricalAgendas>
+		<Row LeaderType="LEADER_SPECTATOR" AgendaType="AGENDA_BUSHIDO"/>
+	</HistoricalAgendas>
+	<!-- 指導者が好む宗教 -->
+	<FavoredReligions>
+		<Row LeaderType="LEADER_SPECTATOR" ReligionType="RELIGION_SHINTO"/>
+	</FavoredReligions>
+
+	<!-- 外交交渉画面 -->
+	<DiplomacyInfo>
+		<Row Type="LEADER_SPECTATOR" BackgroundImage="Background_DiplomcayInfo_Spectator.dds"/>
+	</DiplomacyInfo>
+	<!-- ローディング画面 -->
+	<LoadingInfo>
+		<Row LeaderType="LEADER_SPECTATOR" BackgroundImage="Background_LoadingInfo_Spectator.dds" ForegroundImage="Foreground_LoadingInfo_Spectator.dds" LeaderText="LOC_LEADER_SPECTATOR_DOM_TEXT" PlayDawnOfManAudio="1"/>
+	</LoadingInfo>
+</GameData>

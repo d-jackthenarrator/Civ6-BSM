@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd">
+
+    <Label ID="EvenMoreReportsTitle"	Anchor="C,C" Offset="5,5" Style="ReportBottomLabelText" String="LOC_REPORTS_LIST_EMR" />
+    <Stack ID="EvenMoreReportsStack"	Anchor="C,C" StackGrowth="Down" Align="Center" />
+
+</Context>

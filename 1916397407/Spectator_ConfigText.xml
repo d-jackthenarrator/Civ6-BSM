@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<!-- Civilization -->
+		<Row Tag="LOC_CIVILIZATION_SPECTATOR_NAME" Language="en_US">
+			<Text>Spectator</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_SPECTATOR_DESCRIPTION" Language="en_US">
+			<Text>Spectator</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_SPECTATOR_ADJECTIVE" Language="en_US">
+			<Text>Spectator</Text>
+		</Row>
+		
+		<!-- Leader Name -->
+		<Row Tag="LOC_LEADER_SPECTATOR_NAME" Language="en_US">
+			<Text>[COLOR_Civ6Green]Spectator[ENDCOLOR]</Text>
+		</Row>
+
+		<!-- Civilization Traits -->
+		<Row Tag="LOC_TRAIT_CIVILIZATION_SPECTATOR_NAME" Language="en_US">
+			<Text></Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_CIVILIZATION_SPECTATOR_DESCRIPTION" Language="en_US">
+			<Text>You can mouse over the buttons under your portrait to access more information.[NEWLINE]New reports accessible from the report menu.</Text>
+		</Row>
+
+		<!-- Leader Traits -->
+		<Row Tag="LOC_TRAIT_LEADER_SPECTATOR_NAME" Language="en_US">
+			<Text>Spectator</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_SPECTATOR_DESCRIPTION" Language="en_US">
+			<Text>Click on a leader's portrait to get his vision.[NEWLINE]You would be able to then see his/her Tech tree, Governement choices and more.</Text>
+		</Row>
+
+		<!-- DOM_TEXT -->
+		<Row Tag="LOC_LEADER_SPECTATOR_DOM_TEXT" Language="en_US">
+			<Text>"I am here to watch."[NEWLINE]  [NEWLINE]          D. / Jack the Narrator</Text>
+		</Row>
+	</LocalizedText>
+</GameData>

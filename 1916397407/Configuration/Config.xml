@@ -1,0 +1,23 @@
+<GameInfo>
+	<RulesetUnSupportedValues>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="5" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="6" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="7" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="8" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="9" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="10" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="11" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="12" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="13" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="14" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="15" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="16" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="17" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="18" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="19" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+		<Row Ruleset="RULESET_EXPANSION_2" PlayerId="20" Domain="Players:Expansion2_Players" Value="LEADER_SPECTATOR"/>
+	</RulesetUnSupportedValues>
+	<Parameters>
+		<Row ParameterId="BSM_SP" Name="BSM_SP_NAME" Description="BSM_SP_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="BSM_SP" GroupId="AdvancedOptions" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="0" SupportsHotSeat="0" SupportsPlayByCloud="0" SupportsSinglePlayer="1" ChangeableAfterGameStart="1" SortIndex="2900" />
+	</Parameters>
+</GameInfo>

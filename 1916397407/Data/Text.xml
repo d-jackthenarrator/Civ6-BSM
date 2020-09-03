@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+  <LocalizedText>
+	<!-- New entries -->
+	<Replace Tag="BSM_SP_NAME" language="en">
+		<Text>Spectator Auto-End Turn</Text>
+	</Replace>
+	<Replace Tag="BSM_SP_DESC" language="en">
+		<Text>Turns would automatically switch over once all the AI have played (Default = On).</Text>
+	</Replace>	
+	<Replace Tag="LOC_ONE_OBS_NAME" language="en">
+		<Text>Gathering Storm: One Observer</Text>
+	</Replace>
+	<Replace Tag="LOC_ONE_OBS_DESCRIPTION" language="en">
+		<Text>Adjust Gathering Storm settings to balance the prescence of one Observer. (BBG settings would be detected as well)</Text>
+	</Replace>
+	<Replace Tag="LOC_TWO_OBS_NAME" language="en">
+		<Text>Gathering Storm: Two Observers</Text>
+	</Replace>
+	<Replace Tag="LOC_TWO_OBS_DESCRIPTION" language="en">
+		<Text>Adjust Gathering Storm settings to balance the prescence of two Observers. (BBG settings would be detected as well)</Text>
+	</Replace>
+		<Replace Tag="LOC_THREE_OBS_NAME" language="en">
+		<Text>Gathering Storm: Three Observers</Text>
+	</Replace>
+	<Replace Tag="LOC_THREE_OBS_DESCRIPTION" language="en">
+		<Text>Adjust Gathering Storm settings to balance the prescence of three Observers. (BBG settings would be detected as well)</Text>
+	</Replace>
+		</Replace>
+	<Replace Tag="LOC_FOUR_OBS_NAME" language="en">
+		<Text>Gathering Storm: Four Observers</Text>
+	</Replace>
+	<Replace Tag="LOC_FOUR_OBS_DESCRIPTION" language="en">
+		<Text>Adjust Gathering Storm settings to balance the prescence of four Observers. (BBG settings would be detected as well)</Text>
+	</Replace>
+  </LocalizedText>
+</GameData>

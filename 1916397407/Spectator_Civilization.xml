@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Types>
+		<Row Type="CIVILIZATION_SPECTATOR"        Kind="KIND_CIVILIZATION" />
+		<Row Type="TRAIT_CIVILIZATION_SPECTATOR"  Kind="KIND_TRAIT"/>
+	</Types>
+	<Civilizations>
+		<Row>
+			<CivilizationType>CIVILIZATION_SPECTATOR</CivilizationType>
+			<Name>LOC_CIVILIZATION_SPECTATOR_NAME</Name>
+			<Description>LOC_CIVILIZATION_SPECTATOR_DESCRIPTION</Description>
+			<Adjective>LOC_CIVILIZATION_SPECTATOR_ADJECTIVE</Adjective>
+			<StartingCivilizationLevelType>CIVILIZATION_LEVEL_FULL_CIV</StartingCivilizationLevelType>
+			<RandomCityNameDepth>15</RandomCityNameDepth>
+		</Row>
+	</Civilizations>
+
+	<CivilizationLeaders>
+		<Row CivilizationType="CIVILIZATION_SPECTATOR" LeaderType="LEADER_SPECTATOR" CapitalName="LOC_CIVLIZATION_SPECTATOR_CITY_1" />
+	</CivilizationLeaders>
+
+	<CivilizationCitizenNames>
+		<Row CivilizationType="CIVILIZATION_SPECTATOR" CitizenName="LOC_CITIZEN_SPECTATOR_MALE_1" Female="0"/>
+		<Row CivilizationType="CIVILIZATION_SPECTATOR" CitizenName="LOC_CITIZEN_SPECTATOR_FEMALE_1" Female="1"/>
+	</CivilizationCitizenNames>
+
+	<CivilizationTraits>
+		<Row CivilizationType="CIVILIZATION_SPECTATOR" TraitType="TRAIT_CIVILIZATION_SPECTATOR"/>
+	</CivilizationTraits>
+	<Traits>
+		<Row TraitType="TRAIT_CIVILIZATION_SPECTATOR"  Name="LOC_TRAIT_CIVILIZATION_SPECTATOR_NAME" Description="LOC_TRAIT_CIVILIZATION_SPECTATOR_DESCRIPTION"/>
+	</Traits>
+
+	<CityNames>
+		<Row CivilizationType="CIVILIZATION_SPECTATOR" CityName="LOC_CIVLIZATION_SPECTATOR_CITY_1" />
+	</CityNames>
+</GameData>
