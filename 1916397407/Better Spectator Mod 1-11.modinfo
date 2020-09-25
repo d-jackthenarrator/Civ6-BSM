@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" version="111">
+  <Properties>
+    <Name>Better Spectator Mod v1.1.1</Name>
+    <Description>Allows to play as an Observer. [NEWLINE]In the lobby players in the top 4 slots can choose the Spectator leader. [NEWLINE] In game use the diplomacy ribbon to click on leader and gain their POV and more.</Description>
+    <Created>1</Created>
+    <Teaser>A better spectator mod...</Teaser>
+    <Authors>D. / Jack The Narrator</Authors>
+	<SpecialThanks>Civfanatics.com, CPL, Gedemon, Sukritact, Zur13, Je, DELUXEPhilipe, Malm, Michael</SpecialThanks>
+    <CompatibleVersions>1.2,2.0</CompatibleVersions>
+  </Properties>
+  <ActionCriteria>
+		<Criteria id="Expansion2">
+			<GameCoreInUse>Expansion2</GameCoreInUse>
+		</Criteria>
+    <Criteria id="LeaderCriteria">
+      <LeaderPlayable>StandardPlayers::LEADER_SPECTATOR,Players:Expansion1_Players::LEADER_SPECTATOR,Players:Expansion2_Players::LEADER_SPECTATOR</LeaderPlayable>
+    </Criteria>
+    <Criteria id="LeaderCriteriaExpansion1">
+      <LeaderPlayable>Players:Expansion1_Players::LEADER_SPECTATOR,Players:Expansion2_Players::LEADER_SPECTATOR</LeaderPlayable>
+    </Criteria>
+    <Criteria id="LeaderCriteriaExpansion2">
+      <LeaderPlayable>Players:Expansion2_Players::LEADER_SPECTATOR</LeaderPlayable>
+    </Criteria>
+   		 <Criteria id="MOD: BBG">
+      			<ModInUse>bdffd1bc-49e5-4dd6-81b2-aab1eb55563f</ModInUse>
+   		 </Criteria>
+   		 <Criteria id="MOD: MPH">
+      			<ModInUse>619ac86e-d99d-4bf3-b8f0-8c5b8c402176</ModInUse>
+   		 </Criteria>
+  </ActionCriteria>
+
+   <InGameActions>
+    	<UpdateColors id="GameplayColors">
+      		<Criteria>LeaderCriteria</Criteria>
+      		<File>SPECTATOR_CoreColors.xml</File>
+      		<File>SPECTATOR_PlayerColors.xml</File>
+    	</UpdateColors>
+    	<UpdateDatabase id="Spectator_Gameplay">
+      		<Properties>
+        		<LoadOrder>9999</LoadOrder>
+      		</Properties>
+      		<Criteria>LeaderCriteria</Criteria>
+      		<File>SPECTATOR_Leaders.xml</File>
+      		<File>SPECTATOR_Civilization.xml</File>
+      		<File>SPECTATOR_LeaderAnimations.xml</File>
+    	</UpdateDatabase>
+
+	<!-- Offset RV impact -->
+    	<UpdateDatabase id="Spectator_Religious">
+      		<Properties>
+        		<LoadOrder>99999</LoadOrder>
+      		</Properties>
+      		<File>SPECTATOR_Religious.sql</File>
+    	</UpdateDatabase>
+
+
+       	<AddUserInterfaces>
+		<Properties>
+			<Context>InGame</Context>
+		</Properties>
+		<File>UI/Spectator_UI.xml</File>
+	</AddUserInterfaces>
+    	<AddGameplayScripts id="Spectator">
+       		<File>Data/Spectator.lua</File>
+    	</AddGameplayScripts>
+    	<UpdateText id="Text">
+		<Criteria>LeaderCriteria</Criteria>
+		<LoadOrder>9999</LoadOrder>
+           	<File>Data/Text.xml</File>
+      		<File>SPECTATOR_ConfigText.xml</File>
+      		<File>SPECTATOR_Text.xml</File>
+      		<File>SPECTATOR_LeaderDialog.xml</File>
+    	</UpdateText>
+
+	<ReplaceUIScript id="Spectator_StatusMessagePanel" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>StatusMessagePanel</LuaContext>
+			<LuaReplace>UI/StatusMessagePanel_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ImportFiles id="Spectator_StatusMessagePanel" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		 </Properties>
+		<File>UI/StatusMessagePanel.xml</File>
+	</ImportFiles>
+	<ReplaceUIScript id="Spectator_EspionageOverview" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>EspionageOverview</LuaContext>
+			<LuaReplace>UI/EspionageOverview_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_UnitPanel" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>UnitPanel</LuaContext>
+			<LuaReplace>UI/UnitPanel_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_LaunchBar" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>LaunchBar</LuaContext>
+			<LuaReplace>UI/LaunchBar_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_PlotToolTip" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>PlotToolTip</LuaContext>
+			<LuaReplace>UI/PlotToolTip_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_DiplomacyRibbon" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>DiplomacyRibbon</LuaContext>
+			<LuaReplace>UI/DiplomacyRibbon_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ImportFiles id="Spectator_DiplomacyRibbon" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		 </Properties>
+		<File>UI/DiplomacyRibbon.xml</File>
+	</ImportFiles>
+	<ReplaceUIScript id="Spectator_DiplomacyActionView" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>DiplomacyActionView</LuaContext>
+			<LuaReplace>UI/DiplomacyActionView_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_TopPanel" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>TopPanel</LuaContext>
+			<LuaReplace>UI/TopPanel_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_TechTree" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>TechTree</LuaContext>
+			<LuaReplace>UI/TechTree_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="CivicsTree_Spectator" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>CivicsTree</LuaContext>
+			<LuaReplace>UI/CivicsTree_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_PartialScreenHooks" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>PartialScreenHooks</LuaContext>
+			<LuaReplace>UI/PartialScreenHooks_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_GovernmentScreen" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>GovernmentScreen</LuaContext>
+			<LuaReplace>UI/GovernmentScreen_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_ReportScreen" criteria="Expansion2">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+			<LuaContext>ReportScreen</LuaContext>
+			<LuaReplace>UI/ReportScreen_Spectator.lua</LuaReplace>
+		</Properties>
+	</ReplaceUIScript>
+
+	<ImportFiles id="Spectator_ToolTipHelper_PlayerYields">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		</Properties>
+		<File>UI/ToolTipHelper_PlayerYields.lua</File>
+	</ImportFiles>
+	<ImportFiles id="Spectator_LeaderIcon">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		</Properties>
+		<File>UI/LeaderIcon.lua</File>
+	</ImportFiles>
+	<ImportFiles id="Spectator_GovernorPanel">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		</Properties>
+		<File>UI/GovernorPanel.lua</File>
+	</ImportFiles>
+	<ImportFiles id="Spectator_GreatWorkShowcase">
+		<Properties>
+			<LoadOrder>0</LoadOrder>
+		</Properties>
+		<File>UI/GreatWorkShowcase.lua</File>
+	</ImportFiles>
+	<ImportFiles id="Spectator_GreatWorksOverview">
+		<Properties>
+			<LoadOrder>0</LoadOrder>
+		</Properties>
+		<File>UI/GreatWorksOverview.lua</File>
+	</ImportFiles>
+	<ImportFiles id="Spectator_WorldTracker">
+		<Properties>
+			<LoadOrder>0</LoadOrder>
+		</Properties>
+		<File>UI/WorldTracker.lua</File>
+	</ImportFiles>
+	<ImportFiles id="Spectator_UnitFlagManager">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		</Properties>
+		<File>UI/UnitFlagManager.lua</File>
+	</ImportFiles>
+	<ImportFiles id="Spectator_CityStates">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		</Properties>
+		<File>UI/CityStates.lua</File>
+	</ImportFiles>
+	<ImportFiles id="Spectator_WorldViewIconsManager">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		</Properties>
+		<File>UI/WorldViewIconsManager.lua</File>
+	</ImportFiles>
+	<ImportFiles id="Spectator_CityBannerManager">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		</Properties>
+		<File>UI/CityBannerManager.xml</File>
+		<File>UI/CityBannerManager.lua</File>
+	</ImportFiles>
+
+
+
+
+
+    <!--
+    <ReplaceUIScript id="EMR_ReplaceReportScreen">
+        <Properties>
+            <LoadOrder>1000</LoadOrder>
+            <LuaContext>ReportScreen</LuaContext>
+            <LuaReplace>UI/EMR/ReportScreen_EMR.lua</LuaReplace>
+        </Properties>
+    </ReplaceUIScript>
+    -->
+    <AddUserInterfaces id="EMR_AddUserInterfaces">
+        <Properties>
+            <Context>InGame</Context>
+            <LoadOrder>1000</LoadOrder>
+        </Properties>
+        <File>UI/EMR/EMR_Screen.xml</File>
+        <File>UI/EMR/EMR_ReportsList.xml</File>
+        <File>UI/EMR/EMR_Demographics.xml</File>
+        <File>UI/EMR/EMR_Diplomacy.xml</File>
+        <File>UI/EMR/EMR_Graphs.xml</File>
+    </AddUserInterfaces>
+    <ReplaceUIScript id="EMR_ReplaceReportsList">
+        <Properties>
+            <LoadOrder>1000000</LoadOrder>
+            <LuaContext>ReportsList</LuaContext>
+            <LuaReplace>UI/EMR/ReportsList_EMR.lua</LuaReplace>
+        </Properties>
+    </ReplaceUIScript>
+    <UpdateText id="EMR_UpdateText">
+        <File>UI/EMR/EMR_Text.xml</File>
+    </UpdateText>
+ </InGameActions>
+
+  <FrontEndActions>
+    <UpdateText id="EMR_UpdateText">
+        <File>UI/EMR/EMR_Text.xml</File>
+    </UpdateText>
+    <UpdateColors id="ConfigPlayerColor">
+      <File>SPECTATOR_CoreColors.xml</File>
+      <File>SPECTATOR_PlayerColors.xml</File>
+    </UpdateColors>
+    <UpdateDatabase id="Config_BSM_Spec">
+	<Properties>
+		<LoadOrder>9</LoadOrder>
+	</Properties>
+      <File>SPECTATOR_Config.xml</File>
+    </UpdateDatabase>
+    <UpdateText id="ConfigText">
+      <File>SPECTATOR_ConfigText.xml</File>
+    </UpdateText>
+        <UpdateDatabase id="BSM_SETTINGS">
+            	<File>Configuration/Config.xml</File>
+        </UpdateDatabase>
+        <UpdateText id="BSM_SETTINGS_TEXTS">
+            <File>Configuration/ConfigText.xml</File>
+        </UpdateText>
+    	<UpdateDatabase id="Spectator_Inject_Slot" criteria="OneSpec_Mode_Expansion2">
+      		<Properties>
+        		<LoadOrder>99999</LoadOrder>
+      		</Properties>
+      		<File>SPECTATOR_OneSpec_FE.sql</File>
+    	</UpdateDatabase>
+  </FrontEndActions>
+
+  <Files>
+    	<File>ArtDefs/FallbackLeaders.artdef</File>
+    	<File>XLPs/LeaderFallbacks.xlp</File>
+
+    	<File>Data/Spectator.lua</File>
+	<File>Data/Text.xml</File>
+
+	<File>UI/ToolTipHelper_PlayerYields.lua</File>
+	<File>UI/Spectator_UI.xml</File>
+	<File>UI/Spectator_UI.lua</File>
+	<File>UI/GovernorPanel.lua</File>
+	<File>UI/GovernmentScreen_Spectator.lua</File>
+	<File>UI/UnitPanel_Spectator.lua</File>
+	<File>UI/EspionageOverview_Spectator.lua</File>
+	<File>UI/CityStates.lua</File>
+	<File>UI/UnitFlagManager.lua</File>
+	<File>UI/DiplomacyRibbon.xml</File>
+	<File>UI/DiplomacyRibbon_Spectator.lua</File>
+	<File>UI/LaunchBar_Spectator.lua</File>
+	<File>UI/DiplomacyActionView_Spectator.lua</File>
+	<File>UI/WorldRankings_Spectator.lua</File>
+	<File>UI/PlotToolTip_Spectator.lua</File>
+	<File>UI/TopPanel_Spectator.lua</File>
+	<File>UI/GreatWorksOverview.lua</File>
+	<File>UI/GreatWorkShowcase.lua</File>
+	<File>UI/TechTree_Spectator.lua</File>
+	<File>UI/CivicsTree_Spectator.lua</File>
+	<File>UI/ReportScreen_Spectator.lua</File>
+	<File>UI/WorldTracker.lua</File>
+	<File>UI/PartialScreenHooks_Spectator.lua</File>
+	<File>UI/WorldViewIconsManager.lua</File>
+	<File>UI/CityStates.lua</File>
+	<File>UI/LeaderIcon.lua</File>
+	<File>UI/StatusMessagePanel_Spectator.lua</File>
+	<File>UI/StatusMessagePanel.xml</File>
+	<File>UI/CityBannerManager.lua</File>
+	<File>UI/CityBannerManager.xml</File>
+    	<File>UI/EMR/EMR_Screen.lua</File>
+    	<File>UI/EMR/EMR_Screen.xml</File>
+    	<File>UI/EMR/EMR_ReportsList.lua</File>
+    	<File>UI/EMR/EMR_ReportsList.xml</File>
+   	<File>UI/EMR/EMR_Demographics.lua</File>
+   	<File>UI/EMR/EMR_Demographics.xml</File>
+   	<File>UI/EMR/EMR_Diplomacy.lua</File>
+    	<File>UI/EMR/EMR_Diplomacy.xml</File>
+    	<File>UI/EMR/EMR_Graphs.lua</File>
+    	<File>UI/EMR/EMR_Graphs.xml</File>
+    	<File>UI/EMR/ReportsList_EMR.lua</File>
+    	<File>UI/EMR/ReportScreen_EMR.lua</File>
+    	<File>UI/EMR/EMR_Text.xml</File>
+
+	<File>Configuration/Config.xml</File>
+	<File>Configuration/ConfigText.xml</File>
+
+    	<File>SPECTATOR_Civilization.xml</File>
+    	<File>SPECTATOR_Config.xml</File>
+    	<File>SPECTATOR_ConfigText.xml</File>
+   	<File>SPECTATOR_CoreColors.xml</File>
+   	<File>SPECTATOR_LeaderAnimations.xml</File>
+    	<File>SPECTATOR_LeaderDialog.xml</File>
+    	<File>SPECTATOR_Leaders.xml</File>
+    	<File>SPECTATOR_PlayerColors.xml</File>
+    	<File>SPECTATOR_Text.xml</File>
+
+	<File>SPECTATOR_Religious.sql</File>
+
+  </Files>
+</Mod>

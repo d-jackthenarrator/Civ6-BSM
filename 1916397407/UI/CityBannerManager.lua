@@ -3246,7 +3246,7 @@ function OnUnitAddedOrUpgraded( playerID:number, unitID:number )
 				local pUnitDef = GameInfo.Units[pUnit:GetUnitType()];
 				if pUnitDef ~= nil then
 					if pUnitDef.Combat > 0 then -- Only do this for melee units
-						RefreshPlayerBannerAt( playerID, pUnit:GetX(), pUnit:GetY());
+						RefreshPlayerBanners( playerID );
 					end
 				end
 			end
@@ -3579,6 +3579,7 @@ function OnContextInitialize( isHotload : boolean )
 		LuaEvents.GameDebug_GetValues( "CityBannerManager" );
 		Reload();
 	end
+	LateInitialize();			  
 end
 
 -- ===========================================================================
@@ -3735,6 +3736,11 @@ function OnGovernorEjected( cityOwner: number, cityID: number, playerID: number,
 end
 
 -- ===========================================================================
+-- For Override in mods and scenarios
+-- ===========================================================================
+function LateInitialize()
+end
+
 function Initialize()
 
 	RegisterDirtyEvents();
