@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mod id="c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" version="111">
+<Mod id="c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" version="112">
   <Properties>
-    <Name>Better Spectator Mod v1.1.1</Name>
+    <Name>Better Spectator Mod v1.1.2</Name>
     <Description>Allows to play as an Observer. [NEWLINE]In the lobby players in the top 4 slots can choose the Spectator leader. [NEWLINE] In game use the diplomacy ribbon to click on leader and gain their POV and more.</Description>
     <Created>1</Created>
     <Teaser>A better spectator mod...</Teaser>
@@ -22,13 +22,22 @@
     <Criteria id="LeaderCriteriaExpansion2">
       <LeaderPlayable>Players:Expansion2_Players::LEADER_SPECTATOR</LeaderPlayable>
     </Criteria>
-   		 <Criteria id="MOD: BBG">
-      			<ModInUse>bdffd1bc-49e5-4dd6-81b2-aab1eb55563f</ModInUse>
+		<Criteria id="MOD:_BBS">
+      			<ModInUse>c88cba8b-8311-4d35-90c3-51a4a5d6654f</ModInUse>
    		 </Criteria>
-   		 <Criteria id="MOD: MPH">
+		 <Criteria id="MOD:_BBSBeta">
+      			<ModInUse>4e835bfa-de8b-4093-86e7-25ac44fa9fc6</ModInUse>
+   		 </Criteria>
+   		 <Criteria id="MOD:_BBG">
+      			<ModInUse>cb84074d-5007-4207-b662-c35a5f7be240</ModInUse>
+   		 </Criteria>
+		  <Criteria id="MOD:_BBGBeta">
+      			<ModInUse>cb84074d-5007-4207-b662-c35a5f7be230</ModInUse>
+   		 </Criteria>
+   		 <Criteria id="MOD:_MPH">
       			<ModInUse>619ac86e-d99d-4bf3-b8f0-8c5b8c402176</ModInUse>
    		 </Criteria>
-  </ActionCriteria>
+	</ActionCriteria>
 
    <InGameActions>
     	<UpdateColors id="GameplayColors">
@@ -61,17 +70,13 @@
 		</Properties>
 		<File>UI/Spectator_UI.xml</File>
 	</AddUserInterfaces>
-    	<AddGameplayScripts id="Spectator">
-       		<File>Data/Spectator.lua</File>
-    	</AddGameplayScripts>
-    	<UpdateText id="Text">
-		<Criteria>LeaderCriteria</Criteria>
-		<LoadOrder>9999</LoadOrder>
-           	<File>Data/Text.xml</File>
-      		<File>SPECTATOR_ConfigText.xml</File>
-      		<File>SPECTATOR_Text.xml</File>
-      		<File>SPECTATOR_LeaderDialog.xml</File>
-    	</UpdateText>
+    <AddGameplayScripts id="Spectator">
+       	<File>Data/Spectator.lua</File>
+    </AddGameplayScripts>
+		
+	<UpdateText id="BSM_Text">
+		<File>Lang/Text_EN.xml</File>
+    </UpdateText>
 
 	<ReplaceUIScript id="Spectator_StatusMessagePanel" criteria="Expansion2">
 		<Properties>
@@ -289,21 +294,33 @@
 	</Properties>
       <File>SPECTATOR_Config.xml</File>
     </UpdateDatabase>
-    <UpdateText id="ConfigText">
-      <File>SPECTATOR_ConfigText.xml</File>
+    <UpdateText id="BSM_Text">
+      <File>Lang/Text_EN.xml</File>
     </UpdateText>
         <UpdateDatabase id="BSM_SETTINGS">
             	<File>Configuration/Config.xml</File>
         </UpdateDatabase>
-        <UpdateText id="BSM_SETTINGS_TEXTS">
-            <File>Configuration/ConfigText.xml</File>
-        </UpdateText>
+		        <UpdateDatabase id="BSM_SETTINGS">
+				            <Properties>
+                <LoadOrder>20000</LoadOrder>
+            </Properties>
+			<Criteria>MOD:_BBSBeta</Criteria>
+            <File>Configuration/Config_Beta.xml</File>
+        </UpdateDatabase>
     	<UpdateDatabase id="Spectator_Inject_Slot" criteria="OneSpec_Mode_Expansion2">
       		<Properties>
         		<LoadOrder>99999</LoadOrder>
       		</Properties>
       		<File>SPECTATOR_OneSpec_FE.sql</File>
     	</UpdateDatabase>
+			<ImportFiles id="Spectator_LoadScreen">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		</Properties>
+		<File>UI/LoadScreen.xml</File>
+		<File>UI/LoadScreen.lua</File>
+	</ImportFiles>
+
   </FrontEndActions>
 
   <Files>
@@ -311,9 +328,11 @@
     	<File>XLPs/LeaderFallbacks.xlp</File>
 
     	<File>Data/Spectator.lua</File>
-	<File>Data/Text.xml</File>
+		<File>Lang/Text_EN.xml</File>
 
 	<File>UI/ToolTipHelper_PlayerYields.lua</File>
+	<File>UI/LoadScreen.xml</File>
+	<File>UI/LoadScreen.lua</File>
 	<File>UI/Spectator_UI.xml</File>
 	<File>UI/Spectator_UI.lua</File>
 	<File>UI/GovernorPanel.lua</File>
@@ -343,10 +362,10 @@
 	<File>UI/StatusMessagePanel.xml</File>
 	<File>UI/CityBannerManager.lua</File>
 	<File>UI/CityBannerManager.xml</File>
-    	<File>UI/EMR/EMR_Screen.lua</File>
-    	<File>UI/EMR/EMR_Screen.xml</File>
-    	<File>UI/EMR/EMR_ReportsList.lua</File>
-    	<File>UI/EMR/EMR_ReportsList.xml</File>
+    <File>UI/EMR/EMR_Screen.lua</File>
+    <File>UI/EMR/EMR_Screen.xml</File>
+    <File>UI/EMR/EMR_ReportsList.lua</File>
+    <File>UI/EMR/EMR_ReportsList.xml</File>
    	<File>UI/EMR/EMR_Demographics.lua</File>
    	<File>UI/EMR/EMR_Demographics.xml</File>
    	<File>UI/EMR/EMR_Diplomacy.lua</File>
@@ -358,17 +377,17 @@
     	<File>UI/EMR/EMR_Text.xml</File>
 
 	<File>Configuration/Config.xml</File>
-	<File>Configuration/ConfigText.xml</File>
+	<File>Configuration/Config_Beta.xml</File>
 
     	<File>SPECTATOR_Civilization.xml</File>
     	<File>SPECTATOR_Config.xml</File>
-    	<File>SPECTATOR_ConfigText.xml</File>
+
    	<File>SPECTATOR_CoreColors.xml</File>
    	<File>SPECTATOR_LeaderAnimations.xml</File>
     	<File>SPECTATOR_LeaderDialog.xml</File>
     	<File>SPECTATOR_Leaders.xml</File>
     	<File>SPECTATOR_PlayerColors.xml</File>
-    	<File>SPECTATOR_Text.xml</File>
+
 
 	<File>SPECTATOR_Religious.sql</File>
 

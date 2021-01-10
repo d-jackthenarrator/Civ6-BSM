@@ -49,7 +49,8 @@ function OnMultplayerPlayerConnected( playerID:number )
 			else
 			name = pPlayerConfig:GetPlayerName()
 		end
-		local statusMessage :string= Locale.Lookup(name) .. " " .. TXT_PLAYER_CONNECTED_CHAT;
+		local statusMessage = tostring(Locale.Lookup(name))
+		statusMessage = statusMessage.. "CONECTED";
 		OnStatusMessage( statusMessage, DEFAULT_TIME_TO_DISPLAY, ReportingStatusTypes.DEFAULT );
 	end
 end

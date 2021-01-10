@@ -9,7 +9,7 @@ include( "InstanceManager" );
 include( "SupportFunctions" );
 include( "Civ6Common" );
 include( "Colors") ;
-
+print("Custom LoadScreen for BSM")
 -- ===========================================================================
 --	Action Hotkeys
 -- ===========================================================================
@@ -36,7 +36,7 @@ local TIMEOUT_LOAD			:number = 1000;	-- # of frames before a timeout occurs obta
 local m_isLoadComplete				:boolean = false;
 local m_isResyncLoad				:boolean = false;
 local m_isTraitsFullDescriptions	:boolean = false;
-
+local g_cached_playerIDs
 
 
 -- ===========================================================================
@@ -118,7 +118,8 @@ end
 --	UI Event
 -- ===========================================================================
 function OnShow()
-	
+	print("OnShow()")
+	GetData()
 	m_isLoadComplete	= false;
 	m_isResyncLoad		= UI.IsResyncLoadInProgress(); -- Remember if this is a resync load for later.
 
@@ -134,17 +135,22 @@ function OnShow()
 	
 	-- Clear button callbacks until loading is complete.
 	ClearButtonCallbacks();
+
+	-- Signal to a potentially raised state transition context that we're up (so it can hide).
+	LuaEvents.Lower_State_Transition("LoadScreen");
 end
 
 -- ===========================================================================
 --	UI Event
 -- ===========================================================================
 function OnHide()
+	print("OnHide()")
 	UIManager:SetUICursor( 0 );
 end
 
 -- ===========================================================================
 function OnInit( isReload:boolean )
+	print("OnInit()")
 	if isReload then		
 		OnShow();
 		OnLoadScreenContentReady();
@@ -157,7 +163,7 @@ end
 --	Do it...
 -- ===========================================================================
 function OnLoadScreenContentReady()
-
+	print("OnLoadScreenContentReady()")
 	if (GameConfiguration:IsWorldBuilderEditor()) then
 		-- This needs to show some kind of World Builder splash screen.
 		-- It can't show leaders, etc., they may not be initialized.
@@ -203,6 +209,9 @@ function OnLoadScreenContentReady()
 	else
 		local backgroundTexture:string;
 		local leaderType:string = playerConfig:GetLeaderTypeName();
+		if leaderType == "LEADER_SPECTATOR" then
+			leaderType = "LEADER_GILGAMESH"
+		end
 		local loadingInfo:table = GameInfo.LoadingInfo[leaderType];
 		if loadingInfo and loadingInfo.BackgroundImage then
 			backgroundTexture = loadingInfo.BackgroundImage;
@@ -383,7 +392,7 @@ function OnLoadScreenContentReady()
 			end
 		end
 
-		local size:number = SIZE_BUILDING_ICON;
+		local size:number = SIZE_BUILDING_ICON; 
 
 		for _, item in ipairs(uniqueUnits) do
 			--print( "uu:", item.TraitType, item.Name, item.Description, Locale.Lookup(item.Description));	--debug
@@ -410,6 +419,141 @@ function OnLoadScreenContentReady()
 			instance.Header:SetText( headerText );
 			instance.Description:SetText(Locale.Lookup(item.Description));
 		end
+		
+		if playerConfig:GetLeaderTypeName() == "LEADER_SPECTATOR" then
+			Controls.MiddleSectionContainer:SetHide(true)
+			Controls.MiddleSectionContainerSpectator:SetHide(false)
+			local tournamentName = GameConfiguration.GetValue("BSM_TOURNAMENT");
+			if tournamentName ~= nil and tournamentName ~= "" then
+				Controls.TournamentName:SetText(tostring(tournamentName))
+			end
+			local team1Name = GameConfiguration.GetValue("BSM_TEAM1");
+			local team2Name = GameConfiguration.GetValue("BSM_TEAM2");
+			if team1Name ~= nil and team1Name ~= "" then
+				Controls.STeam_1Label:SetText(tostring(team1Name))
+			end
+			if team2Name ~= nil and team2Name ~= "" then
+				Controls.STeam_2Label:SetText(tostring(team2Name))
+			end
+			local sstr = tostring(PlayerConfigurations[localPlayer]:GetPlayerName())
+			if sstr == "LOC_LEADER_SPECTATOR_NAME" then
+				sstr = "Almighty Observer"
+			end
+			Controls.Spec_Label:SetText(sstr)
+			local input = MapConfiguration.GetValue("MAP_SCRIPT");
+			local query = "SELECT * FROM Maps where File = ? LIMIT 1";
+			local pResults = DB.ConfigurationQuery(query, input);
+			local kResult	= pResults[1];
+			if kResult ~= nil then
+				sstr = Locale.Lookup( kResult.Name );
+			end
+			Controls.Map_Label:SetText(sstr)
+			local mapSizeHash = MapConfiguration.GetValue("MAP_SIZE");
+			local mapSize = nil;
+			for row in GameInfo.Maps() do
+				if row.Hash == mapSizeHash then
+					mapSize = row
+				end
+			end
+			if mapSize  ~= nil then
+				sstr = Locale.Lookup( mapSize.Name );
+			end
+			Controls.Size_Label:SetText(sstr)
+			local erahash = GameConfiguration.GetValue("GAME_START_ERA");
+			print("erahash",erahash)
+			local era = nil
+			for row in GameInfo.Eras() do
+				if row.Hash == erahash then
+					era = row
+				end
+			end			
+			if era  ~= nil then
+				sstr = Locale.Lookup( era.Name );
+				Controls.Era_Label:SetText(sstr)
+				else
+				Controls.Era_Label:SetHide(true)
+			end
+			
+			local bteamer = false
+			local bsingleplayer = true
+			if GameConfiguration.IsAnyMultiplayer() then
+				bsingleplayer = false
+			end
+			local team1 = -1
+			local team2 = -1
+			local bnot2v2 = false
+			for j, player in ipairs(g_cached_playerIDs) do	
+				if player.ID ~= nil and player.Team ~= -1 then
+					if player.ID ~= player.Team and player.Team ~= -1 then
+						print("Teamer = true",player.ID,player.Team)
+						bteamer = true
+						if team1 == -1 then
+							team1 = player.Team
+						end
+						if player.Team ~= team1 and team2 == -1 then
+							team2 = player.Team
+						end
+						if player.Team ~= team1 and player.Team ~= team2 then
+							bnot2v2 = true
+						end
+					end
+				end
+			end
+			if bteamer == true then
+				Controls.STeam_1Label:SetHide(false)
+				Controls.STeam_2Label:SetHide(false)
+				Controls.Type_Label:SetText("Teamer")
+			end 
+			if bteamer == false or bnot2v2 == true or bsingleplayer == true then
+				count = 0
+				for j, player in ipairs(g_cached_playerIDs) do	
+				if player.ID ~= nil then
+					count = count + 1
+					local playerlabel = Controls["SPlayer_"..count.."Label"]			
+					local str = Locale.Lookup(PlayerConfigurations[player.ID]:GetPlayerName())
+					str = tostring(str)
+					playerlabel:SetText(str)
+					playerlabel:SetHide(false)
+					local playericon = Controls["SPlayer_"..count]
+					local leaderplayer = PlayerConfigurations[player.ID]:GetLeaderTypeName()
+					playericon:SetIcon("ICON_"..tostring(leaderplayer))
+					playericon:SetHide(false)
+				end
+				end
+			else
+				count = -1
+				for j, player in ipairs(g_cached_playerIDs) do	
+				if player.ID ~= nil and player.Team == team1 then
+					count = count + 2
+					local playerlabel = Controls["SPlayer_"..count.."Label"]			
+					local str = Locale.Lookup(PlayerConfigurations[player.ID]:GetPlayerName())
+					str = tostring(str)
+					playerlabel:SetText(str)
+					playerlabel:SetHide(false)
+					local playericon = Controls["SPlayer_"..count]
+					local leaderplayer = PlayerConfigurations[player.ID]:GetLeaderTypeName()
+					playericon:SetIcon("ICON_"..tostring(leaderplayer))
+					playericon:SetHide(false)
+				end
+				end
+				count = 0
+				for j, player in ipairs(g_cached_playerIDs) do	
+				if player.ID ~= nil and player.Team == team2 then
+					count = count + 2
+					local playerlabel = Controls["SPlayer_"..count.."Label"]			
+					local str = Locale.Lookup(PlayerConfigurations[player.ID]:GetPlayerName())
+					str = tostring(str)
+					playerlabel:SetText(str)
+					playerlabel:SetHide(false)
+					local playericon = Controls["SPlayer_"..count]
+					local leaderplayer = PlayerConfigurations[player.ID]:GetLeaderTypeName()
+					playericon:SetIcon("ICON_"..tostring(leaderplayer))
+					playericon:SetHide(false)
+				end
+				end	
+			end	
+		end
+		
 	end
 end
 
@@ -468,8 +612,32 @@ function OnLoadGameViewStateDone()
 end
 
 -- ===========================================================================
-function Initialize()
+function GetData()
+	print("Loadscreen GetData")
+	g_cached_playerIDs = {}
+	local player_ids = GameConfiguration.GetParticipatingPlayerIDs();
+	local count = 0 
+	for i, iPlayer in ipairs(player_ids) do		
+		if( PlayerConfigurations[iPlayer]:IsParticipant() and PlayerConfigurations[iPlayer]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" ) then
+			if PlayerConfigurations[iPlayer]:GetCivilizationLevelTypeID() == CivilizationLevelTypes.CIVILIZATION_LEVEL_FULL_CIV then
+			count = count + 1
+			tmp = { ID = iPlayer, Team = PlayerConfigurations[iPlayer]:GetTeam() }
+			table.insert(g_cached_playerIDs,tmp)
+			end
+		end
+	end
+	if count > 0 then
+		local sort_func = function( a,b ) return a.Team < b.Team end
+		table.sort( g_cached_playerIDs, sort_func )
+	end
+end
 
+
+
+
+-- ===========================================================================
+function Initialize()
+	print("Loadscreen Initialize()")
 	Input.SetActiveContext( InputContext.Loading );
 
 	-- EVENTS:

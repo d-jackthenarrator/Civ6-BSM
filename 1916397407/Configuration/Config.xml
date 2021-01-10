@@ -19,5 +19,8 @@
 	</RulesetUnSupportedValues>
 	<Parameters>
 		<Row ParameterId="BSM_SP" Name="BSM_SP_NAME" Description="BSM_SP_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="BSM_SP" GroupId="AdvancedOptions" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="0" SupportsHotSeat="0" SupportsPlayByCloud="0" SupportsSinglePlayer="1" ChangeableAfterGameStart="1" SortIndex="2900" />
+		<Row ParameterId="BSM_TOURNAMENT" Name="BSM_TOURNAMENT_NAME" Description="" Domain="text" Hash="0"  ConfigurationGroup="Game" ConfigurationId="BSM_TOURNAMENT" GroupId="TournamentOptions" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SupportsHotSeat="0" SortIndex="30" />
+		<Row ParameterId="BSM_TEAM1" Name="BSM_TEAM1_NAME" Description="" Domain="text"  Hash="0" ConfigurationGroup="Game" ConfigurationId="BSM_TEAM1" GroupId="TournamentOptions" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SupportsHotSeat="0" SortIndex="31" />
+		<Row ParameterId="BSM_TEAM2" Name="BSM_TEAM2_NAME" Description="" Domain="text"  Hash="0" ConfigurationGroup="Game" ConfigurationId="BSM_TEAM2" GroupId="TournamentOptions" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SupportsHotSeat="0" SortIndex="32" />
 	</Parameters>
 </GameInfo>

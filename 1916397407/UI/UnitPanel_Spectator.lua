@@ -26,7 +26,7 @@ function OnPlayerTurnDeactivated( ePlayer:number )
 		end
 	end
 	if (bspec == true) then
-			g_isOkayToProcess = true;
+		g_isOkayToProcess = true;
 	end
 
 end

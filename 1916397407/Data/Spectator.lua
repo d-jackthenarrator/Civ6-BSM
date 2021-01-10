@@ -87,7 +87,8 @@
 -- v1.10	Remove Ruleset to allow NFP / Ethiopia compatibility.
 --		Only top 4 slots can be Observers
 -- v1.11	Support for the Gaul Patch
-	
+-- v1.12	Added Tournament support with MPH
+--		Fixed some database errors and other minors glitches	
 
 
 ---------------------------------------------------------------------------------
@@ -95,7 +96,7 @@ ExposedMembers.LuaEvents = LuaEvents
 
 local bLaunch = false;
 local spec_num = 0
-local g_version = "v1.11"
+local g_version = "v1.12"
 
 function Spec_Script_Init()
 		local currentTurn = Game.GetCurrentGameTurn();

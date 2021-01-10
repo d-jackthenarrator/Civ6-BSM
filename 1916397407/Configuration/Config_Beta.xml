@@ -1,0 +1,5 @@
+<GameInfo>
+	<Parameters>
+		<Row ParameterId="BSM_SP_BETA" Name="BSM_SP_NAME" Description="BSM_SP_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="BSM_SP_BETA" GroupId="AdvancedOptions" Visible="0" SortIndex="2900" />
+	</Parameters>
+</GameInfo>

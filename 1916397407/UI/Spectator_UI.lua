@@ -7,7 +7,7 @@
 
 UIEvents = ExposedMembers.LuaEvents;
 local bFirst = true
-local g_version = "v1.11"
+local g_version = "v1.12"
 local b_congress = false
 local b_IsSpec = false
 local WORLD_CONGRESS_STAGE_1:number = DB.MakeHash("TURNSEG_WORLDCONGRESS_1");
@@ -20,12 +20,12 @@ function StatusMessage( str:string, fDisplayTime:number, type:number)
 	LuaEvents.StatusMessage(str, fDisplayTime, type)
 end
 
-
 -- ===========================================================================
 --	OnLoadScreenClose() - initialize
 -- ===========================================================================
 
 function OnLoadScreenClose()
+
 	if (Game:GetProperty("SPEC_INIT") ~= nil) then
 		if (Game:GetProperty("SPEC_INIT") == true) then
 			if ( Game:GetProperty("SPEC_NUM") ~= nil) then
@@ -65,6 +65,7 @@ Events.LoadScreenClose.Add( OnLoadScreenClose );
 -- ===========================================================================
 
 function OnLocalPlayerTurnBegin()
+
 	local turnSegment = Game.GetCurrentTurnSegment();
 	if b_IsSpec == true then
 		UI.DeselectAllUnits();
