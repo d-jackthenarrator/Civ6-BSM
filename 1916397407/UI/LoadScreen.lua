@@ -188,8 +188,16 @@ function OnLoadScreenContentReady()
 			end
 		end	
 	end	
-
+	local playerConfig		:table = PlayerConfigurations[localPlayer];
+	
 	local primaryColor, secondaryColor  = UI.GetPlayerColors( localPlayer );
+
+	if playerConfig ~= nil then
+		if playerConfig:GetLeaderTypeName() == "LEADER_SPECTATOR" then
+			primaryColor = UI.GetColorValueFromHexLiteral(0xff99aaaa);
+			secondaryColor = UI.GetColorValueFromHexLiteral(0xffaa9999);
+		end
+	end
 
 	if primaryColor == nil then
 		primaryColor = UI.GetColorValueFromHexLiteral(0xff99aaaa);
@@ -203,7 +211,6 @@ function OnLoadScreenContentReady()
 	local backColor						= UI.DarkenLightenColor(primaryColor, DARKEN_AMOUNT, 255);
 	Controls.Banner:SetColor(backColor);
 	
-	local playerConfig		:table = PlayerConfigurations[localPlayer];
 	if playerConfig == nil then
 		UI.DataError("Received NIL playerConfig for player #"..tostring(localPlayer));
 	else
@@ -315,8 +322,10 @@ function OnLoadScreenContentReady()
 
 		local civType	:string = playerConfig:GetCivilizationTypeName();
 		local iconName	:string = "ICON_"..civType;
-		Controls.LogoContainer:SetColor(primaryColor);
-		Controls.Logo:SetColor(secondaryColor);
+		if leaderType ~= "LEADER_SPECTATOR" then
+			Controls.LogoContainer:SetColor(primaryColor);
+			Controls.Logo:SetColor(secondaryColor);
+		end
 		Controls.Logo:SetIcon(iconName);
 
 		Controls.Logo:SetHide(false);

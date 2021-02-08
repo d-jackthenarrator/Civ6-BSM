@@ -1632,6 +1632,12 @@ end
 
 -- ===========================================================================
 function CityBanner:UpdateName()
+	if PlayerConfigurations[Game.GetLocalPlayer()] ~= nil then
+		if PlayerConfigurations[Game.GetLocalPlayer()]:GetLeaderTypeName() == "LEADER_SPECTATOR" then
+			bspec = true
+		end
+	end
+	
 	if (self.m_Type == BANNERTYPE_CITY_CENTER) then
 		local pCity : table = self:GetCity();
 		if pCity ~= nil then
@@ -1645,8 +1651,18 @@ function CityBanner:UpdateName()
 			else
 				tooltip = Locale.Lookup(cityName);
 			end
-			
-			self.m_Instance.CityName:SetText( Locale.ToUpper(cityName) );
+			cityName = Locale.ToUpper(cityName)
+			if bspec == true and pPlayer:IsMajor() then
+				local team1Name = GameConfiguration.GetValue("BSM_TEAM1");
+				local team2Name = GameConfiguration.GetValue("BSM_TEAM2");
+				if team1Name ~= nil and team1Name ~= "" and PlayerConfigurations[owner]:GetTeam() == 0 then
+					cityName = team1Name.." "..cityName
+				end
+				if team2Name ~= nil and team2Name ~= "" and PlayerConfigurations[owner]:GetTeam() == 1 then
+					cityName = team2Name.." "..cityName
+				end
+			end
+			self.m_Instance.CityName:SetText( cityName );
 			self.m_Instance.CityBannerButton:SetToolTipString( tooltip );
 			self:UpdateInfo( pCity );
 			self:Resize();
