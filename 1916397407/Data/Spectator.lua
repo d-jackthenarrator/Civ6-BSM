@@ -89,14 +89,15 @@
 -- v1.11	Support for the Gaul Patch
 -- v1.12	Added Tournament support with MPH
 --		Fixed some database errors and other minors glitches	
+-- v1.14	Compatible with Portugal Patch
 
-
+print("BSM Game Script")
 ---------------------------------------------------------------------------------
 ExposedMembers.LuaEvents = LuaEvents
 
 local bLaunch = false;
 local spec_num = 0
-local g_version = "v1.12"
+local g_version = "v1.14"
 
 function Spec_Script_Init()
 		local currentTurn = Game.GetCurrentGameTurn();

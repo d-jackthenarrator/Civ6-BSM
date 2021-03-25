@@ -7,7 +7,7 @@
 
 UIEvents = ExposedMembers.LuaEvents;
 local bFirst = true
-local g_version = "v1.13"
+local g_version = "v1.14"
 local b_congress = false
 local b_IsSpec = false
 local WORLD_CONGRESS_STAGE_1:number = DB.MakeHash("TURNSEG_WORLDCONGRESS_1");

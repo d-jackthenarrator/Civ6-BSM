@@ -5,7 +5,7 @@
 	<Box			ID="Background"				Color="0,0,0,255"				Anchor="C,C" Size="parent,parent" ConsumeMouse="1">
 
 		<TextButton				ID="FallbackMessage"	Anchor="C,C" Align="center" Style="FontFlair20"	SmallCapsType="EveryWord" SmallCaps="26" 	String="{LOC_LOADING_PLEASE_WAIT:upper}" Color="200,200,200,255"/>
-		<Label			ID="Test0"       Anchor="C,T" 	Style="FontFlair22"	 Align="Left" WrapWidth="550" String="Observed with Better Spectator Mod" Offset="0,0"  Color="200,200,200,255" Hidden="1" />
+		<Label			ID="Test0"       Anchor="C,T" 	Style="FontNormal14"	 Align="Left" WrapWidth="550" String="Observed with Better Spectator Mod" Offset="0,0"  Color="200,200,200,255" Hidden="1" />
 		<Image	ID="BackgroundImage"	Anchor="C,C"	StretchMode="Auto">
 			<Group Size="parent,parent" Clip="1">
 

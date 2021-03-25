@@ -566,6 +566,8 @@ function OnLoadScreenContentReady()
 	end
 end
 
+
+
 -- ===========================================================================
 -- ENGINE Event
 -- ===========================================================================
@@ -658,7 +660,6 @@ function Initialize()
 	Events.LoadScreenContentReady.Add( OnLoadScreenContentReady );		-- Ready to show player info
 	Events.LoadGameViewStateDone.Add( OnLoadGameViewStateDone );		-- Ready to start game
 	Events.BeforeMultiplayerInviteProcessing.Add( OnBeforeMultiplayerInviteProcessing );
-
     UI.SetExitOnClose(true);
 end
 Initialize();
