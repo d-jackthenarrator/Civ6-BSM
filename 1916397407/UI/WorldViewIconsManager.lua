@@ -17,6 +17,7 @@ local g_MapIcons				:table = {};
 local m_kUntouchedPlots			:table = {};	-- Used to prevent multiple calls to mess with animation start for a plot change
 local m_isShowResources			:boolean = UserConfiguration.ShowMapResources();
 local m_isShowRecommendations	:boolean = true;
+local m_isFirstRefresh			:boolean = true;										 
 local m_kSettlerTooltip			:table = {};	-- Table of controls for custom tooltip access.
 
 local m_techsThatUnlockResources : table = {};
@@ -68,6 +69,7 @@ function OnEndFade( pInstance:table )
 		m_kUntouchedPlots[pInstance[KEY_PLOT_INDEX]] = nil;
 	end
 end
+
 
 -------------------------------------------------------------------------------
 function SetResourceIcon( pInstance:table, pPlot, type, state)
@@ -152,7 +154,7 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 						local improvementType = improvement;
 
 						local has_feature = false;
-						valid_feature = false;
+						local valid_feature = false;
 						for inner_row in GameInfo.Improvement_ValidFeatures() do
 							if(inner_row.ImprovementType == improvementType) then
 								has_feature = true;
@@ -164,7 +166,7 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 						valid_feature = not has_feature or valid_feature;
 
 						local has_terrain = false;
-						valid_terrain = false;
+						local valid_terrain = false;
 						for inner_row in GameInfo.Improvement_ValidTerrains() do
 							if(inner_row.ImprovementType == improvementType) then
 								has_terrain = true;
@@ -175,7 +177,18 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 						end
 						valid_terrain = not has_terrain or valid_terrain;
 
-						if(valid_feature == true and valid_terrain == true) then
+						-- if we match the resource in Improvement_ValidResources it's a get-out-of-jail-free card for feature and terrain checks
+						local valid_resources = false;
+						for inner_row in GameInfo.Improvement_ValidResources() do
+							if(inner_row.ImprovementType == improvementType) then
+								if(inner_row.ResourceType == resourceType) then
+									valid_resources = true;
+									break;
+								end
+							end
+						end
+
+						if ((valid_feature == true and valid_terrain == true) or (valid_resources == true)) then
 							resourceTechType = GameInfo.Improvements[improvementType].PrereqTech;
 							resourceCivicType = GameInfo.Improvements[improvementType].PrereqCivic;
 							break;
@@ -289,11 +302,11 @@ function GetNonEmptyAt(plotIndex, state)
 		-- Have a Resource?
 		local eResource = pLocalPlayerVis:GetLayerValue(VisibilityLayerTypes.RESOURCES, plotIndex);
 		local bHideResource = ( pPlot ~= nil and ( pPlot:GetDistrictType() > 0 or pPlot:IsCity() ) );
-		if (eResource ~= nil and eResource ~= -1 and not bHideResource ) then
-			if plotIndex ~= nil then
-				pInstance = GetInstanceAt(plotIndex);
-				SetResourceIcon(pInstance, pPlot, eResource, state);
-			end
+		if (eResource ~= nil and eResource ~= -1 and not bHideResource and GameCapabilities.HasCapability("CAPABILITY_DISPLAY_MINIMAP_RESOURCES")) then
+			pInstance = GetInstanceAt(plotIndex);
+										 
+			SetResourceIcon(pInstance, pPlot, eResource, state);
+	  
 		else
 			UnloadResourceIconAt(plotIndex);
 		end
@@ -326,10 +339,10 @@ end
 	
 -------------------------------------------------------------------------------
 function ChangeToMidFog(plotIndex)
-	local pIconSet = nil
-	if plotIndex ~= nil then
-		pIconSet = GetNonEmptyAt(plotIndex, RevealedState.REVEALED);
-	end
+					 
+						 
+	local pIconSet = GetNonEmptyAt(plotIndex, RevealedState.REVEALED);
+
 	if (pIconSet ~= nil) then
 		pIconSet.NextResourceIcon:SetHide( (not m_isShowResources) or (not pIconSet.ResourceIcon:HasTexture()) );
 		pIconSet.RecommendationIcon:SetHide( (not m_isShowRecommendations) or (not pIconSet.RecommendationIconTexture:HasTexture()) );
@@ -354,6 +367,11 @@ end
 -------------------------------------------------------------------------------
 function Rebuild()
 
+
+	if m_isFirstRefresh and GameConfiguration.IsWorldBuilderEditor() then
+		m_isFirstRefresh = false;
+		return;
+	end																	  
 	local eObserverID = Game.GetLocalObserver();
 	local pLocalPlayerVis = PlayerVisibilityManager.GetPlayerVisibility(eObserverID);
 	local bspec = false
@@ -395,28 +413,36 @@ function Rebuild()
 	end
 end
 
+-- ===========================================================================
+--	If research completed matches any techs that reveal icons, rebuild.
+-- ===========================================================================
 function OnResearchCompleted( player:number, tech:number, isCanceled:boolean)
 	if player == Game.GetLocalPlayer() then
 		for i, techType in ipairs(m_techsThatUnlockResources) do
 			if (techType == GameInfo.Technologies[tech].TechnologyType) then
 				Rebuild();
+				return;
 			end
 		end
 
 		for i, techType in ipairs(m_techsThatUnlockImprovements) do
 			if (techType == GameInfo.Technologies[tech].TechnologyType) then
 				Rebuild();
-				break;
+				return;
 			end
 		end
 	end
 end
 
+-- ===========================================================================
+--	If a civic completed matches any civics that reveal icons, rebuild.
+-- ===========================================================================
 function OnCivicCompleted( player:number, civic:number, isCanceled:boolean)
 	if player == Game.GetLocalPlayer() then
 		for i, civicType in ipairs(m_civicsThatUnlockResources) do
 			if (civicType == GameInfo.Civics[civic].CivicType) then
 				Rebuild();
+				return;
 			end
 		end
 	end
@@ -464,6 +490,9 @@ end
 -------------------------------------------------------------------------------
 function OnResourceChanged(x, y, resourceType)
 
+	if UI.IsInGame() == false then
+		return;
+	end							   
 	local eObserverID = Game.GetLocalObserver();
 	local pLocalPlayerVis = PlayerVisibilityManager.GetPlayerVisibility(eObserverID);
 	if (pLocalPlayerVis ~= nil) then
@@ -494,6 +523,10 @@ end
 -------------------------------------------------------------------------------
 function OnPlotVisibilityChanged(x, y, visibilityType)
 
+
+	if UI.IsInGame() == false then
+		return;
+	end							   
 	-- Don't use the 'untouched' version because events this can break depending on the order the events come in.
 	local plotIndex:number = GetPlotIndex(x, y);
 	if plotIndex == -1 then
@@ -515,6 +548,9 @@ end
 
 -- ===========================================================================
 function OnCityAddedToMap(playerID, cityID, x, y)
+	if UI.IsInGame() == false then
+		return;
+	end
 	local plotIndex:number = GetPlotIndex(x, y);
 
     ClearSettlementRecommendations();
@@ -673,6 +709,7 @@ function ClearSettlementRecommendations()
 	for i,plotIndex in ipairs(m_RecommendedSettlementPlots) do
 		local pRecommendedPlotInstance = GetInstanceAt(plotIndex);
 		pRecommendedPlotInstance.ImprovementRecommendationBackground:SetHide(true);
+		pRecommendedPlotInstance.ImprovementRecommendationIcon:SetToolTipType(nil);																			 
 	end
 
 	-- Clear table
@@ -690,7 +727,7 @@ function AddSettlementRecommendations()
 	end
 	local pLocalPlayer:table = Players[localPlayerID];
 	if pLocalPlayer == nil then
-		UI.DataAssert("Could not obtain a player object to make settler recommendations for player id: ",localPlayerID);
+		UI.DataError("Could not obtain a player object to make settler recommendations for player id: ",localPlayerID);
 		return;
 	end
 	
@@ -723,13 +760,14 @@ function AddSettlementRecommendations()
 			-- Update custom tooltip
 			uiInstance.ImprovementRecommendationIcon:SetToolTipType("SettlerRecommendationTooltip");
 			uiInstance.ImprovementRecommendationIcon:SetToolTipCallback(
-				function() 
+				function( pControl:object ) 
 				
 					-- Don't rebuild tooltip everyframe, only if it's for a different plot.
 					if m_kSettlerTooltip["SettlingLocation"] == kRecommendation.SettlingLocation then
 						return;
 					end
-					m_kSettlerTooltip["SettlingLocation"] = kRecommendation.SettlingLocation;	-- Save last plot shown/
+					
+					m_kSettlerTooltip["SettlingLocation"] = kRecommendation.SettlingLocation;	-- Save last plot shown.
 					m_kSettlerTooltip.RecommendationStack:DestroyAllChildren();
 				
 					-- Obtain info and sort so good items show first.					
@@ -792,6 +830,9 @@ function OnUnitSelectionChanged(player, unitId, locationX, locationY, locationZ,
 end
 
 -- ===========================================================================
+function OnLoadGameViewStateDone()
+	Rebuild();
+end
 --	UI Callback
 --	Handle the UI shutting down.
 -- ===========================================================================
@@ -800,6 +841,7 @@ function OnShutdown()
 	Events.CityAddedToMap.Remove(OnCityAddedToMap);
 	Events.CivicCompleted.Remove(OnCivicCompleted);
 	Events.EndWonderReveal.Remove( OnEndWonderReveal );
+	Events.LoadGameViewStateDone.Remove(OnLoadGameViewStateDone);														  
 	Events.LocalPlayerChanged.Remove(OnLocalPlayerChanged);
 	Events.PlotMarkerChanged.Remove(OnPlotMarkersChanged);
 	Events.PlotVisibilityChanged.Remove(OnPlotVisibilityChanged);
@@ -880,6 +922,7 @@ function Initialize()
 	Events.CityAddedToMap.Add(OnCityAddedToMap);
 	Events.CivicCompleted.Add(OnCivicCompleted);
 	Events.EndWonderReveal.Add( OnEndWonderReveal );
+	Events.LoadGameViewStateDone.Add(OnLoadGameViewStateDone);													   
 	Events.LocalPlayerChanged.Add(OnLocalPlayerChanged);
 	Events.PlotMarkerChanged.Add(OnPlotMarkersChanged);
 	Events.PlotVisibilityChanged.Add(OnPlotVisibilityChanged);

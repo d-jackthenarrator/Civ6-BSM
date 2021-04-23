@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mod id="c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" version="114">
+<Mod id="c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" version="115">
   <Properties>
-    <Name>Better Spectator Mod v1.1.4</Name>
+    <Name>Better Spectator Mod v1.1.5</Name>
     <Description>Allows to play as an Observer. [NEWLINE]In the lobby players in the top 4 slots can choose the Spectator leader. [NEWLINE] In game use the diplomacy ribbon to click on leader and gain their POV and more.</Description>
     <Created>1</Created>
     <Teaser>A better spectator mod...</Teaser>
     <Authors>D. / Jack The Narrator</Authors>
 	<SpecialThanks>Civfanatics.com, CPL, Gedemon, Sukritact, Zur13, Je, DELUXEPhilipe, Malm, Michael</SpecialThanks>
     <CompatibleVersions>1.2,2.0</CompatibleVersions>
+	<Version>115</Version>
   </Properties>
   <ActionCriteria>
 		<Criteria id="Expansion2">
@@ -243,47 +244,17 @@
 		<File>UI/CityBannerManager.xml</File>
 		<File>UI/CityBannerManager.lua</File>
 	</ImportFiles>
+	<ImportFiles id="Spectator_MapSearch">
+		<Properties>
+			<LoadOrder>9999</LoadOrder>
+		</Properties>
+		<File>UI/MapSearchPanel_Spectator.lua</File>
+	</ImportFiles>
 
 
-
-
-
-    <!--
-    <ReplaceUIScript id="EMR_ReplaceReportScreen">
-        <Properties>
-            <LoadOrder>1000</LoadOrder>
-            <LuaContext>ReportScreen</LuaContext>
-            <LuaReplace>UI/EMR/ReportScreen_EMR.lua</LuaReplace>
-        </Properties>
-    </ReplaceUIScript>
-    -->
-    <AddUserInterfaces id="EMR_AddUserInterfaces">
-        <Properties>
-            <Context>InGame</Context>
-            <LoadOrder>1000</LoadOrder>
-        </Properties>
-        <File>UI/EMR/EMR_Screen.xml</File>
-        <File>UI/EMR/EMR_ReportsList.xml</File>
-        <File>UI/EMR/EMR_Demographics.xml</File>
-        <File>UI/EMR/EMR_Diplomacy.xml</File>
-        <File>UI/EMR/EMR_Graphs.xml</File>
-    </AddUserInterfaces>
-    <ReplaceUIScript id="EMR_ReplaceReportsList">
-        <Properties>
-            <LoadOrder>1000000</LoadOrder>
-            <LuaContext>ReportsList</LuaContext>
-            <LuaReplace>UI/EMR/ReportsList_EMR.lua</LuaReplace>
-        </Properties>
-    </ReplaceUIScript>
-    <UpdateText id="EMR_UpdateText">
-        <File>UI/EMR/EMR_Text.xml</File>
-    </UpdateText>
  </InGameActions>
 
   <FrontEndActions>
-    <UpdateText id="EMR_UpdateText">
-        <File>UI/EMR/EMR_Text.xml</File>
-    </UpdateText>
     <UpdateColors id="ConfigPlayerColor">
       <File>SPECTATOR_CoreColors.xml</File>
       <File>SPECTATOR_PlayerColors.xml</File>
@@ -345,6 +316,7 @@
 	<File>UI/DiplomacyRibbon_Spectator.lua</File>
 	<File>UI/LaunchBar_Spectator.lua</File>
 	<File>UI/DiplomacyActionView_Spectator.lua</File>
+	<File>UI/MapSearchPanel_Spectator.lua</File>
 	<File>UI/WorldRankings_Spectator.lua</File>
 	<File>UI/PlotToolTip_Spectator.lua</File>
 	<File>UI/TopPanel_Spectator.lua</File>
@@ -362,19 +334,7 @@
 	<File>UI/StatusMessagePanel.xml</File>
 	<File>UI/CityBannerManager.lua</File>
 	<File>UI/CityBannerManager.xml</File>
-    <File>UI/EMR/EMR_Screen.lua</File>
-    <File>UI/EMR/EMR_Screen.xml</File>
-    <File>UI/EMR/EMR_ReportsList.lua</File>
-    <File>UI/EMR/EMR_ReportsList.xml</File>
-   	<File>UI/EMR/EMR_Demographics.lua</File>
-   	<File>UI/EMR/EMR_Demographics.xml</File>
-   	<File>UI/EMR/EMR_Diplomacy.lua</File>
-    	<File>UI/EMR/EMR_Diplomacy.xml</File>
-    	<File>UI/EMR/EMR_Graphs.lua</File>
-    	<File>UI/EMR/EMR_Graphs.xml</File>
-    	<File>UI/EMR/ReportsList_EMR.lua</File>
-    	<File>UI/EMR/ReportScreen_EMR.lua</File>
-    	<File>UI/EMR/EMR_Text.xml</File>
+
 
 	<File>Configuration/Config.xml</File>
 	<File>Configuration/Config_Beta.xml</File>

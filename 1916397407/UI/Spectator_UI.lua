@@ -7,7 +7,7 @@
 
 UIEvents = ExposedMembers.LuaEvents;
 local bFirst = true
-local g_version = "v1.14"
+local g_version = "v1.15"
 local b_congress = false
 local b_IsSpec = false
 local WORLD_CONGRESS_STAGE_1:number = DB.MakeHash("TURNSEG_WORLDCONGRESS_1");
@@ -65,7 +65,9 @@ Events.LoadScreenClose.Add( OnLoadScreenClose );
 -- ===========================================================================
 
 function OnLocalPlayerTurnBegin()
-
+	if UI.IsInGame() == false then
+		return;
+	end	
 	local turnSegment = Game.GetCurrentTurnSegment();
 	if b_IsSpec == true then
 		UI.DeselectAllUnits();
@@ -125,6 +127,9 @@ Events.LocalPlayerTurnBegin.Add(		OnLocalPlayerTurnBegin );
 
 
 function OnTurnEnd()
+	if UI.IsInGame() == false then
+		return;
+	end	
 	if GameConfiguration.GetValue("GAME_NO_BARBARIANS") == false then
 		UIEvents.UIUndoObserver("OnTurnEnd")
 	end

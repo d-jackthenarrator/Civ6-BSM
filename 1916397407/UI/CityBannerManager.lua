@@ -15,13 +15,13 @@ include( "CitySupport" );
 -- ===========================================================================
 CityBanner = {};
 
-BANNERTYPE_CITY_CENTER		= 0;
-BANNERTYPE_ENCAMPMENT		= 1;
-BANNERTYPE_AERODROME		= 2;
-BANNERTYPE_MISSILE_SILO		= 3;
-BANNERTYPE_OTHER_DISTRICT	= 4;
-BANNERTYPE_MOUNTAIN_TUNNEL	= 5;
-BANNERTYPE_QHAPAQ_NAN		= 6;
+BANNERTYPE_CITY_CENTER		= UIManager:GetHash("BANNERTYPE_CITY_CENTER");
+BANNERTYPE_ENCAMPMENT	    = UIManager:GetHash("BANNERTYPE_ENCAMPMENT");
+BANNERTYPE_AERODROME	    = UIManager:GetHash("BANNERTYPE_AERODROME");
+BANNERTYPE_MISSILE_SILO	    = UIManager:GetHash("BANNERTYPE_MISSILE_SILO");
+BANNERTYPE_OTHER_DISTRICT   = UIManager:GetHash("BANNERTYPE_OTHER_DISTRICT");
+BANNERTYPE_MOUNTAIN_TUNNEL	= UIManager:GetHash("BANNERTYPE_MOUNTAIN_TUNNEL");
+BANNERTYPE_QHAPAQ_NAN		= UIManager:GetHash("BANNERTYPE_QHAPAQ_NAN");
 
 
 -- ===========================================================================
@@ -93,6 +93,7 @@ local m_isTradeSelectionActive	:boolean = false;
 
 local m_refreshLocalPlayerRangeStrike:boolean = false;
 local m_refreshLocalPlayerProduction:boolean = false;
+local m_refreshPlayerBanner		:table = {};		-- tracks if a player needs all of their banners updated
 
 local m_DelayedUpdate : table = {};
 
@@ -216,7 +217,9 @@ function CityBanner:Uninitialize()
 	end
 end
 
-
+-- ===========================================================================
+function CityBanner:InitializeOtherBannerTypes(bannerType : number)
+end																			  
 -- ===========================================================================
 function CityBanner:Initialize( playerID: number, cityID : number, districtID : number, bannerType : number, bannerStyle : number)
 	-- Are we a Spectator?
@@ -333,6 +336,8 @@ function CityBanner:Initialize( playerID: number, cityID : number, districtID : 
 		self:CreateTunnelBanner();
 	elseif (bannerType == BANNERTYPE_QHAPAQ_NAN) then
 		self:CreateQhapaqNanBanner();
+	else	-- hook for extensions
+		self:InitializeOtherBannerTypes(bannerType);																		  
 	end
 
 	self:UpdateName();
@@ -689,10 +694,18 @@ function CityBanner:CreateEncampmentBanner()
 
 	self.m_IsImprovementBanner = false;
 
+	-- set default icon
+	self.m_Instance.EncampmentFontIcon:SetText("[Icon_DISTRICT_ENCAMPMENT]");
+
 	local pDistrict = self:GetDistrict();
 	if (pDistrict ~= nil) then
 		self.m_PlotX = pDistrict:GetX();
 		self.m_PlotY = pDistrict:GetY();
+
+		local kDistrictDef:table = GameInfo.Districts[pDistrict:GetType()];
+		if kDistrictDef ~= nil and kDistrictDef.DistrictType == "DISTRICT_OPPIDUM" then
+			self.m_Instance.EncampmentFontIcon:SetText("[Icon_DISTRICT_OPPIDUM]")
+		end
 
 		-- Update district strength
 		local districtDefense:number = math.floor(pDistrict:GetDefenseStrength() + 0.5);
@@ -736,6 +749,7 @@ function CityBanner:UpdateEncampmentBanner()
 
 	self.m_Instance.EncampmentBannerContainer:SetToolTipString(healthTooltip);
 	self.m_Instance.DistrictDefenseGrid:SetToolTipString(defTooltip);
+	self.m_Instance.DistrictDefenseStrengthLabel:SetText(districtDefense);																	   
 end
 
 -- ===========================================================================
@@ -805,6 +819,11 @@ function CityBanner:Resize()
 end
 
 -- ===========================================================================
+function CityBanner:UpdateColorOtherBannerTypes( backColor:number )
+	self.m_Instance.MiniBannerBackground:SetColor( backColor );
+end
+
+-- ===========================================================================																			  
 -- Assign player colors to the appropriate banner elements
 function CityBanner:UpdateColor()
 
@@ -850,7 +869,7 @@ function CityBanner:UpdateColor()
 			self.m_Instance.Banner_Base:SetColor( backColor );
 		end
 	else
-		self.m_Instance.MiniBannerBackground:SetColor( backColor );
+		self:UpdateColorOtherBannerTypes( backColor );
 	end
 
 	self:SetHealthBarColor();
@@ -1244,6 +1263,10 @@ function CityBanner:UpdateGovernor(pCity:table)
 end
 
 -- ===========================================================================
+function CityBanner:UpdateOtherImprovementBannerTypes()
+end
+
+-- ===========================================================================																			  
 function CityBanner:UpdateStats()
 	local pDistrict:table = self:GetDistrict();
 	local localPlayerID:number = Game.GetLocalPlayer();
@@ -1341,6 +1364,8 @@ function CityBanner:UpdateStats()
 					self:UpdateAerodromeBanner();
 				elseif (self.m_Type == BANNERTYPE_MISSILE_SILO) then
 					self:UpdateWMDBanner();
+				else
+					self:UpdateOtherImprovementBannerTypes();		
 				end
 			end
 		end
@@ -1662,7 +1687,7 @@ function CityBanner:UpdateName()
 					cityName = team2Name.." "..cityName
 				end
 			end
-			self.m_Instance.CityName:SetText( cityName );
+			self.m_Instance.CityName:SetText( Locale.ToUpper(cityName) );
 			self.m_Instance.CityBannerButton:SetToolTipString( tooltip );
 			self:UpdateInfo( pCity );
 			self:Resize();
@@ -1700,13 +1725,15 @@ function HasEspionageView( ownerID:number, cityID:number )
 		if pLocalPlayerDiplo then
 			eVisibility = pLocalPlayerDiplo:GetVisibilityOn(ownerID);
 			local kVisDef:table = GameInfo.Visibilities_XP2[eVisibility];
-			if kVisDef.EspionageViewAll == true then
-				-- We can view all of this players cities
-				return true;
-			end
+			if kVisDef ~= nil then
+				if kVisDef.EspionageViewAll == true then
+					-- We can view all of this players cities
+					return true;
+				end
 
-			if kVisDef.EspionageViewCapital == true then
-				canViewCapital = true;
+				if kVisDef.EspionageViewCapital == true then
+					canViewCapital = true;
+				end
 			end
 		end
 	end
@@ -3247,6 +3274,12 @@ function FlushChanges()
 		RefreshPlayerProduction( Game.GetLocalPlayer() );
 		m_refreshLocalPlayerProduction = false;
 	end
+	for playerID, updateState in pairs(m_refreshPlayerBanner) do
+		if updateState == true then
+			RefreshPlayerBanners( playerID );
+			m_refreshPlayerBanner[ playerID ] = false;
+		end
+	end
 end
 
 -- ===========================================================================
@@ -3262,7 +3295,7 @@ function OnUnitAddedOrUpgraded( playerID:number, unitID:number )
 				local pUnitDef = GameInfo.Units[pUnit:GetUnitType()];
 				if pUnitDef ~= nil then
 					if pUnitDef.Combat > 0 then -- Only do this for melee units
-						RefreshPlayerBanners( playerID );
+		m_refreshPlayerBanner[ playerID ] = true;
 					end
 				end
 			end
@@ -3831,5 +3864,10 @@ function Initialize()
 
 	LuaEvents.GameDebug_Return.Add(OnGameDebugReturn);
 end
+-- This wildcard include will include all loaded files beginning with "CityBannerManager_"
+-- This method replaces the uses of include("CityBannerManager") in files that want to override
+-- functions from this file. If you're implementing a new "CityBannerManager_" file DO NOT include this file.
+include("CityBannerManager_", true);
+
 Initialize();
 

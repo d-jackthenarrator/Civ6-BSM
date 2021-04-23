@@ -90,6 +90,8 @@
 -- v1.12	Added Tournament support with MPH
 --		Fixed some database errors and other minors glitches	
 -- v1.14	Compatible with Portugal Patch
+-- v1.15 	Compatible with Balance Patch
+--		Search Function works as an Observer
 
 print("BSM Game Script")
 ---------------------------------------------------------------------------------
@@ -97,7 +99,7 @@ ExposedMembers.LuaEvents = LuaEvents
 
 local bLaunch = false;
 local spec_num = 0
-local g_version = "v1.14"
+local g_version = "v1.15"
 
 function Spec_Script_Init()
 		local currentTurn = Game.GetCurrentGameTurn();

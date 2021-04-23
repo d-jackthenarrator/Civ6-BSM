@@ -603,7 +603,7 @@ function AddUnitToUnitList(pUnit:table)
 	end
 
 	-- Update entry color if unit cannot take any action
-	if pUnit:IsReadyToMove() then
+	if pUnit:GetMovementMovesRemaining() > 0 then
 		uiUnitEntry.Button:GetTextControl():SetColorByName("UnitPanelTextCS");
 		uiUnitEntry.UnitTypeIcon:SetColorByName("UnitPanelTextCS");
 	else
@@ -1104,6 +1104,9 @@ end
 
 -- ===========================================================================
 function OnUnitAddedToMap(playerID:number, unitID:number)
+	if UI.IsInGame() == false then
+		return;
+	end							   	
 	if(playerID == Game.GetLocalPlayer())then
 		UpdateUnitListPanel();
 		StartUnitListSizeUpdate();
@@ -1196,6 +1199,12 @@ function OnRefresh()
 end
 
 -- ===========================================================================
+function OnLoadGameViewStateDone()
+	m_isDirty =true;
+	OnDirtyCheck();
+end
+
+-- ===========================================================================																		  
 function OnChatPanelContainerSizeChanged()
 	LuaEvents.WorldTracker_ChatContainerSizeChanged(Controls.ChatPanelContainer:GetSizeY());
 end
@@ -1233,6 +1242,7 @@ function Subscribe()
 	Events.UnitOperationDeactivated.Add( OnUnitOperationDeactivated );
 	Events.UnitOperationStarted.Add( OnUnitOperationStarted );
 	Events.UnitRemovedFromMap.Add( OnUnitRemovedFromMap );
+	Events.LoadGameViewStateDone.Add(OnLoadGameViewStateDone);														   
 
 	LuaEvents.LaunchBar_Resize.Add(OnLaunchBarResized);
 	LuaEvents.DiplomacyRibbon_Click.Add(OnRefresh)										   
@@ -1272,6 +1282,7 @@ function Unsubscribe()
 	Events.UnitOperationDeactivated.Remove( OnUnitOperationDeactivated );
 	Events.UnitOperationStarted.Remove( OnUnitOperationStarted );
 	Events.UnitRemovedFromMap.Remove( OnUnitRemovedFromMap );
+	Events.LoadGameViewStateDone.Remove(OnLoadGameViewStateDone);															  
 
 	LuaEvents.LaunchBar_Resize.Remove(OnLaunchBarResized);
 	
