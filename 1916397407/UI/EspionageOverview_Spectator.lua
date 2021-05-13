@@ -6,7 +6,7 @@
 -- INCLUDE BASE FILE
 -- ===========================================================================
 include("EspionageOverview_Expansion1");
-print("EspionageOverview for BSM")
+print("EspionageOverview for BSM Test")
 
 -- Cached functions
 
@@ -33,6 +33,7 @@ local m_selectedTab:number = -1;
 -- Overrides
 
 function RefreshOperatives()
+	print("RefreshOperatives() - 1")
 	m_OperativeIM:ResetInstances();
 	local localPlayerID = nil
 	local bspec = false
@@ -47,6 +48,7 @@ function RefreshOperatives()
 			end
 		end
 	end
+	print("RefreshOperatives() - 2")
 		if (bspec == true) then
 			if ( GameConfiguration.GetValue("OBSERVER_ID_"..spec_ID) ~= nil and GameConfiguration.GetValue("OBSERVER_ID_"..spec_ID) ~= 1000) then
 				localPlayerID = GameConfiguration.GetValue("OBSERVER_ID_"..spec_ID)
@@ -60,7 +62,7 @@ function RefreshOperatives()
 			BASE_RefreshOperatives()
 			return
 		end
-
+	print("RefreshOperatives() - 3")
 	m_OperativeIM:ResetInstances();
 	local idleSpies:table = {};
 	local activeSpies:table = {};
@@ -84,7 +86,7 @@ function RefreshOperatives()
 			numberOfSpies = numberOfSpies + 1;
 		end
 	end
-
+	print("RefreshOperatives() - 4")
 	-- Display idle spies
 	for i, spy in ipairs(idleSpies) do
 		AddOperative(spy);
@@ -109,7 +111,7 @@ function RefreshOperatives()
 			end
 		end
 	end
-
+	print("RefreshOperatives() - 5")
 	-- Display travelling spies
 	local playerDiplomacy:table = Players[localPlayerID]:GetDiplomacy();
 	if playerDiplomacy then
@@ -122,7 +124,7 @@ function RefreshOperatives()
 			end
 		end
 	end
-
+	print("RefreshOperatives() - 6")
 	-- Display a messsage if we have no spies
 	Controls.NoOperativesLabel:SetHide(numberOfSpies ~= 0);
 
@@ -138,6 +140,7 @@ end
 
 -- ===========================================================================
 function RefreshMissionHistory()
+	print("RefreshMissionHistory() - 1")
 	m_EnemyOperativeIM:ResetInstances();
 
 	local localPlayerID = nil;
@@ -213,14 +216,18 @@ function RefreshMissionHistory()
 	ResizeMissionHistoryScrollPanel();
 
 	Controls.MissionHistoryScrollPanel:CalculateSize();
+	print("RefreshMissionHistory() - 2")
 end
 
 function OnDiplomacyClick()
+	print("OnDiplomacyClick()")
 	RefreshMissionHistory()
 	RefreshOperatives()
+	print("OnDiplomacyClick() - 2")
 end
 
 function PopulateTabs()
+	print("PopulateTabs() - 1")
 	local localPlayerID:number = Game.GetLocalPlayer();
 	local bspec = false
 	local spec_ID = 0
@@ -306,12 +313,14 @@ function PopulateTabs()
 
 	m_tabs.EvenlySpreadTabs();
 	m_tabs.CenterAlignTabs(-25);	-- Use negative to create padding as value represents amount to overlap
+	print("PopulateTabs() - 2")
 end
 
 LuaEvents.DiplomacyRibbon_Click.Add( OnDiplomacyClick );
 Events.GameCoreEventPublishComplete.Add ( OnDiplomacyClick );
 
 function AddCapturedOperative(spy:table, playerCapturedBy:number)
+	print("AddCapturedOperative - 1")
 	local operativeInstance:table = m_OperativeIM:GetInstance();
 	local localPlayerID:number = Game.GetLocalPlayer()
 	local bspec = false
@@ -375,10 +384,12 @@ function AddCapturedOperative(spy:table, playerCapturedBy:number)
 	operativeInstance.ActiveMissionContainer:SetHide(true);
 	operativeInstance.TravellingContainer:SetHide(true);
 	operativeInstance.CapturedContainer:SetHide(false);
+	print("AddCapturedOperative - 2")
 end
 
 ------------------------------------------------------------------------------------------------
 function AddCapturedEnemyOperative(spyInfo:table)
+	print(" AddCapturedEnemyOperative - 1")
 	local enemyOperativeInstance:table = m_EnemyOperativeIM:GetInstance();
 	local localPlayerID:number = Game.GetLocalPlayer()
 	local bspec = false
@@ -428,4 +439,5 @@ function AddCapturedEnemyOperative(spyInfo:table)
 	end
 
 	Controls.CapturedEnemyOperativeStack:CalculateSize();
+		print(" AddCapturedEnemyOperative - 2")
 end

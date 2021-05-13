@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mod id="c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" version="115">
   <Properties>
-    <Name>Better Spectator Mod v1.1.5</Name>
+    <Name>Better Spectator Mod v1.1.6</Name>
     <Description>Allows to play as an Observer. [NEWLINE]In the lobby players in the top 4 slots can choose the Spectator leader. [NEWLINE] In game use the diplomacy ribbon to click on leader and gain their POV and more.</Description>
     <Created>1</Created>
     <Teaser>A better spectator mod...</Teaser>
     <Authors>D. / Jack The Narrator</Authors>
 	<SpecialThanks>Civfanatics.com, CPL, Gedemon, Sukritact, Zur13, Je, DELUXEPhilipe, Malm, Michael</SpecialThanks>
     <CompatibleVersions>1.2,2.0</CompatibleVersions>
-	<Version>115</Version>
+	<Version>116</Version>
   </Properties>
   <ActionCriteria>
 		<Criteria id="Expansion2">
@@ -92,13 +92,6 @@
 		 </Properties>
 		<File>UI/StatusMessagePanel.xml</File>
 	</ImportFiles>
-	<ReplaceUIScript id="Spectator_EspionageOverview" criteria="Expansion2">
-		<Properties>
-			<LoadOrder>9999</LoadOrder>
-			<LuaContext>EspionageOverview</LuaContext>
-			<LuaReplace>UI/EspionageOverview_Spectator.lua</LuaReplace>
-		</Properties>
-	</ReplaceUIScript>
 	<ReplaceUIScript id="Spectator_UnitPanel" criteria="Expansion2">
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
@@ -309,7 +302,6 @@
 	<File>UI/GovernorPanel.lua</File>
 	<File>UI/GovernmentScreen_Spectator.lua</File>
 	<File>UI/UnitPanel_Spectator.lua</File>
-	<File>UI/EspionageOverview_Spectator.lua</File>
 	<File>UI/CityStates.lua</File>
 	<File>UI/UnitFlagManager.lua</File>
 	<File>UI/DiplomacyRibbon.xml</File>
