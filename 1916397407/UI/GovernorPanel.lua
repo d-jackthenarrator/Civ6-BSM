@@ -70,6 +70,7 @@ function Refresh()
 	-- display a list of governor candidates
 	--
 	m_governorIM:ResetInstances();
+	m_societyGovernorIM:ResetInstances();								  
 
 	local playerGovernors = pPlayer:GetGovernors();
 	local governorPointsObtained = playerGovernors:GetGovernorPoints();

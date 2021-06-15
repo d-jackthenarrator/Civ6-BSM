@@ -37,6 +37,7 @@ XP2_LateInitialize = LateInitialize
 XP2_UpdateLeaders = UpdateLeaders
 XP2_FinishAddingLeader = FinishAddingLeader
 XP2_UpdateStatValues = UpdateStatValues
+XP2_OnShutdown = OnShutdown
 
 -- =========================================================================== 
 --	NEW FUNCTION
@@ -146,6 +147,11 @@ end
 -- ===========================================================================
 --	OVERRIDE
 -- ===========================================================================
+
+function OnShutdown()
+	XP2_OnShutdown();
+	Events.GameCoreEventPublishComplete.Remove ( OnTimePasses );
+end
 
 function LateInitialize()
 
@@ -809,9 +815,22 @@ end
 function UpdateStatValues( playerID:number, uiLeader:table )	
 	XP2_UpdateStatValues( playerID, uiLeader );
 	local namestr = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName())
+	local team_id = PlayerConfigurations[playerID]:GetTeam()
+	local teamstr = ""
+	if team_id ~= nil and PlayerConfigurations[playerID]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" then
+		team_id = team_id + 1
+		local team_name = GameConfiguration.GetValue("BSM_TEAM"..tostring(team_id))
+		if team_name ~= nil then
+			team_name = string.sub(tostring(team_name),1,7)
+			teamstr = tostring(team_name).."[NEWLINE]"
+		end
+	end
 	if namestr ~= nil then
 		if string.len(namestr) > 8 then
 			namestr = string.sub(namestr,1,7).."."
+		end
+		if teamstr ~= "" then
+			namestr = teamstr..namestr
 		end
 		uiLeader.Name:SetText(tostring(namestr))
 	end

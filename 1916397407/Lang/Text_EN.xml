@@ -42,6 +42,12 @@
 		<Replace Tag="BSM_TEAM2_NAME" language="en_US">
 		<Text>Team 2 Name</Text>
 	</Replace>
+	<Replace Tag="BSM_TEAM3_NAME" language="en_US">
+		<Text>Team 3 Name</Text>
+	</Replace>
+		<Replace Tag="BSM_TEAM4_NAME" language="en_US">
+		<Text>Team 4 Name</Text>
+	</Replace>
 	
 	
 		<!-- Civilization -->
