@@ -13,12 +13,7 @@ local b_IsSpec = false
 local WORLD_CONGRESS_STAGE_1:number = DB.MakeHash("TURNSEG_WORLDCONGRESS_1");
 local WORLD_CONGRESS_STAGE_2:number = DB.MakeHash("TURNSEG_WORLDCONGRESS_2");
 print("-- Init D. Better Spectator Mod",g_version," UI --");
--- =========================================================================== 
---	Send Status message
--- =========================================================================== 
-function StatusMessage( str:string, fDisplayTime:number, type:number)
-	LuaEvents.StatusMessage(str, fDisplayTime, type)
-end
+
 
 -- ===========================================================================
 --	OnLoadScreenClose() - initialize
@@ -33,22 +28,18 @@ function OnLoadScreenClose()
 				for k =1, Game:GetProperty("SPEC_NUM") do
 					if ( Game.GetLocalPlayer() == Game:GetProperty("SPEC_ID_"..k)) then
 						local tmp_string = "Better Spectator Mod "..g_version..": Welcome Home, Observer! #"..k
-						StatusMessage(tmp_string , 60, ReportingStatusTypes.DEFAULT )
 						UserConfiguration.SetValue("QuickMovement", 1)
 						UserConfiguration.SetValue("QuickCombat", 1)
-						StatusMessage( "Click on a leader's icon to switch views!", 60, ReportingStatusTypes.DEFAULT )
 						UI.RequestPlayerOperation(1000, PlayerOperations.START_OBSERVER_MODE, nil)
 						bspec = true
 					end
 				end
 				if bspec == false then
 					local tmp_string = "Better Spectator Mod"..g_version..": This game is being observed by "..Game:GetProperty("SPEC_NUM").." Observer(s)"
-					StatusMessage(tmp_string, 60, ReportingStatusTypes.DEFAULT )	
 				end
 				UIEvents.UICleanBoost()
 				else
 				local tmp_string = "Better Spectator Mod "..g_version..": No Observer in this game!"
-				StatusMessage(tmp_string, 60, ReportingStatusTypes.DEFAULT )
 				
 			end
 		end
@@ -84,7 +75,6 @@ function OnLocalPlayerTurnBegin()
 		if (Game:GetProperty("SPEC_INIT") == true) then
 			if (Game:GetProperty("SPEC_NUM") ~= nil) then
 				local specid = 1000;
-				GPData()
 				for k = 1, Game:GetProperty("SPEC_NUM") do
 					if ( Game:GetProperty("SPEC_ID_"..k)~= nil) then
 						if ( Game.GetLocalPlayer() == Game:GetProperty("SPEC_ID_"..k)) then
@@ -125,7 +115,6 @@ end
 Events.LocalPlayerTurnBegin.Add(		OnLocalPlayerTurnBegin );
 
 
-
 function OnTurnEnd()
 	if UI.IsInGame() == false then
 		return;
@@ -143,28 +132,44 @@ Events.TurnEnd.Add(		OnTurnEnd );
 
 -- New Cities
 function OnCityAddedToMap( playerID: number, cityID : number, cityX : number, cityY : number )
-	local bspec = false
-	if (Game:GetProperty("SPEC_NUM") ~= nil) then
-		for k = 1, Game:GetProperty("SPEC_NUM") do
-			if ( Game:GetProperty("SPEC_ID_"..k)~= nil) then
-				if Game.GetLocalPlayer() == Game:GetProperty("SPEC_ID_"..k) then
-					bspec = true
-				end
-			end
-		end
+	if playerID == nil or Game.GetLocalPlayer() == nil then
+		return
 	end
-	--if (Game:GetProperty("SPEC_ID") ~= nil) then
-		if ( bspec == true and Players[playerID]:IsMajor() == true and GameConfiguration.GetStartTurn() ~=  Game.GetCurrentGameTurn()) then
-			local pPlayer = Players[playerID];
-			local pCity = pPlayer:GetCities():FindID(cityID);
-			local msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has founded a new city named "..Locale.Lookup(pCity:GetName())
-			StatusMessage( msg, 5, ReportingStatusTypes.DEFAULT )
-		end
-	--end
+	
+	local pPlayer : object = Players[playerID];
+	if pPlayer == nil or pPlayer:IsMajor() == false then
+		return 
+	end
 
+	local cityCount = 0
+	for _,pCity : object in pPlayer:GetCities():Members() do
+		cityCount = cityCount + 1
+	end
+	local msgString = "Title"
+	local sumString = "Details"
+	if cityCount == 1 and GameConfiguration.GetStartTurn() ~=  Game.GetCurrentGameTurn() then
+		msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_DELAYED_B1_MESSAGE");
+		sumString = Locale.Lookup("LOC_BSM_NOTIFICATION_DELAYED_B1_SUMMARY");
+		NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.PLAYER_MET, msgString, sumString, cityX, cityY);
+	elseif cityCount == 2 then
+		msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_B2_MESSAGE");
+		sumString = Locale.Lookup("LOC_BSM_NOTIFICATION_B2_SUMMARY");
+		NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.PLAYER_MET, msgString, sumString, cityX, cityY);
+	elseif cityCount == 3 then
+		msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_B3_MESSAGE");
+		sumString = Locale.Lookup("LOC_BSM_NOTIFICATION_B3_SUMMARY");
+		NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.PLAYER_MET, msgString, sumString, cityX, cityY);
+	elseif cityCount == 10 then
+		msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_B10_MESSAGE");
+		sumString = Locale.Lookup("LOC_BSM_NOTIFICATION_B10_SUMMARY");
+		NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.PLAYER_MET, msgString, sumString, cityX, cityY);
+	elseif cityCount == 20 then
+		msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_B20_MESSAGE");
+		sumString = Locale.Lookup("LOC_BSM_NOTIFICATION_B20_SUMMARY");
+		NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.PLAYER_MET, msgString, sumString, cityX, cityY);
+	end
 end
 
-Events.CityAddedToMap.Add( OnCityAddedToMap );
 
 -- Goody Huts
 function OnGoodyHutReward(playerID, unitID, itemID, itemID_2)
@@ -177,114 +182,87 @@ function OnGoodyHutReward(playerID, unitID, itemID, itemID_2)
 	-- 301278043	2109989822 relic
 	-- -2010932837	gold
 	-- 1892398955	-317814676 free worker
-	local bspec = false
-	if (Game:GetProperty("SPEC_NUM") ~= nil) then
-		for k = 1, Game:GetProperty("SPEC_NUM") do
-			if ( Game:GetProperty("SPEC_ID_"..k)~= nil) then
-				if Game.GetLocalPlayer() == Game:GetProperty("SPEC_ID_"..k) then
-					bspec = true
-				end
-			end
-		end
+	if playerID == nil or Players[playerID] == nil then
+		return
 	end
-	--if (Game:GetProperty("SPEC_ID") ~= nil) then
-		if ( bspec == true and Players[playerID]:IsMajor() == true) then
-			local msg =""
-			local dur = 5
+	if ( Players[playerID]:IsMajor() == true) then
+			local sumString =""
+			local msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_GOODY_MESSAGE" );
+			local notificationType = NotificationTypes.DEFAULT
+			local pPlayer	:table = Players[playerID];
+			local pUnit		:table = pPlayer:GetUnits():FindID(unitID);		
+			
 			if (itemID == 301278043 and itemID_2 == -1593446804) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Civic Boost!"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Civic Boost!"
 				elseif (itemID == -1068790248) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Tech Boost!"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Tech Boost!"
 				elseif (itemID == 1623514478 and itemID_2 == -897059678) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a XP Boost!"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a XP Boost!"
 				elseif (itemID == 1623514478 and itemID_2 == -945185595) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Free Scout!"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Free Scout!"
 				elseif (itemID == 1892398955 and itemID_2 == 1038837136) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Population Boost"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Population Boost"
 				elseif (itemID == 1623514478 and itemID_2 == 1721956964) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and was healed!"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and was healed!"
 				elseif (itemID == 1892398955 and itemID_2 == -317814676) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Free Worker!"
-				dur = 15
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Free Worker!"
 				elseif (itemID == -2010932837) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received some Gold!"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received some Gold!"
 				elseif (itemID == 301278043 and itemID_2 == 2109989822) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Relic!"
-				dur = 15
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Relic!"
+				notificationType = NotificationTypes.RELIC_CREATED
 				elseif (itemID == 392580697 and itemID_2 == 1171999597) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Free Envoy!"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Free Envoy!"
 				elseif (itemID == 392580697 and itemID_2 == -842336157) then
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Diplomatic Boost!"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut and received a Diplomatic Boost!"
 				else
-				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut!"
+				sumString = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has found a Goody Hut!"
 				print("Goody hut mistery",itemID, itemID_2)
 			end
-			StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
-		end
-	--end
+			if sumString ~= "" then
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), notificationType, msgString, sumString, pUnit:GetX(), pUnit:GetY());
+			end
+	end
 end
 
-Events.GoodyHutReward.Add(			OnGoodyHutReward );
+function OnUnitCaptured( currentUnitOwner, unit, owningPlayer, capturingPlayer )
+	local pPlayer	:table = Players[currentUnitOwner];
+	local pUnit		:table = pPlayer:GetUnits():FindID(unitID);		
+	local	msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_SETTLER_MESSAGE");
+	local 	sumString = Locale.Lookup("LOC_NOTIFICATION_SETTLER_SUMMARY");
+	if pUnit ~= nil and pUnit:GetName() == "LOC_UNIT_SETTLER_NAME" then
+		NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.SPY_ENEMY_CAPTURED, msgString, sumString, pUnit:GetX(), pUnit:GetY());
+	end	
+end
 
 function OnPantheonFounded(player, belief)
 
-	local bspec = false
-	if (Game:GetProperty("SPEC_NUM") ~= nil) then
-		for k = 1, Game:GetProperty("SPEC_NUM") do
-			if ( Game:GetProperty("SPEC_ID_"..k)~= nil) then
-				if Game.GetLocalPlayer() == Game:GetProperty("SPEC_ID_"..k) then
-					bspec = true
-				end
-			end
-		end
-	end
-
 	if ( bspec == true and Players[player]:IsMajor() == true) then
 		local msg =""
-		local dur = 15
+		local msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_PANTHEON_MESSAGE" );
 		msg = Locale.Lookup(PlayerConfigurations[player]:GetPlayerName()).." has chosen a pantheon: "..Locale.Lookup(GameInfo.Beliefs[belief].Name)
-		StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+		local pCapital = Players[player]:GetCities():GetCapitalCity();
+		NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_PANTHEON, msgString, msg, pCapital:GetX(), pCapital:GetY());
 	end
 end
 
-Events.PantheonFounded.Add(OnPantheonFounded)
+
 
 function OnBuildingAddedToMap( plotX:number, plotY:number, buildingType:number, playerType:number, pctComplete:number, bPillaged:number )
-	local bspec = false
-	if (Game:GetProperty("SPEC_NUM") ~= nil) then
-		for k = 1, Game:GetProperty("SPEC_NUM") do
-			if ( Game:GetProperty("SPEC_ID_"..k)~= nil) then
-				if Game.GetLocalPlayer() == Game:GetProperty("SPEC_ID_"..k) then
-					bspec = true
-				end
-			end
-		end
-	end
 
-	if ( bspec == true and Players[playerType]:IsMajor() == true and GameInfo.Buildings[buildingType].IsWonder == true) then
-		local msg =""
-		local dur = 15
+	if ( Players[playerType]:IsMajor() == true and GameInfo.Buildings[buildingType].IsWonder == true) then
+		local msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_WONDER_STARTED_MESSAGE" );
+		local msg = ""
 		msg = Locale.Lookup(PlayerConfigurations[playerType]:GetPlayerName()).." has started to build: "..Locale.Lookup(GameInfo.Buildings[buildingType].Name)
-		StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+		NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.WONDER_COMPLETED, msgString, msg, plotX, plotY);
 	end
 end
 
-Events.BuildingAddedToMap.Add( OnBuildingAddedToMap );
+
 
 function OnGovernmentChanged( player:number )
 
-	local bspec = false
-	if (Game:GetProperty("SPEC_NUM") ~= nil) then
-		for k = 1, Game:GetProperty("SPEC_NUM") do
-			if ( Game:GetProperty("SPEC_ID_"..k)~= nil) then
-				if Game.GetLocalPlayer() == Game:GetProperty("SPEC_ID_"..k) then
-					bspec = true
-				end
-			end
-		end
-	end
-
-	if ( bspec == true and Players[player]:IsMajor() == true and GameConfiguration.GetStartTurn() ~=  Game.GetCurrentGameTurn()) then
+	if ( Players[player]:IsMajor() == true and GameConfiguration.GetStartTurn() ~=  Game.GetCurrentGameTurn() and PlayerConfigurations[player]:GetLeaderTypeName() ~= "LEADER_SPECTATOR") then
 		local govType:string = "";
   		local eSelectePlayerGovernment :number = Players[player]:GetCulture():GetCurrentGovernment();
   		if eSelectePlayerGovernment ~= -1 then
@@ -292,14 +270,15 @@ function OnGovernmentChanged( player:number )
  			else
    			govType = Locale.Lookup("LOC_GOVERNMENT_ANARCHY_NAME" );
   		end
-		local msg =""
-		local dur = 15
 		msg = Locale.Lookup(PlayerConfigurations[player]:GetPlayerName()).." is now in: "..govType
-		StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+		local msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_GOV_CHANGE_MESSAGE" );
+		local pCapital = Players[player]:GetCities():GetCapitalCity();
+		
+		NotificationManager.SendNotification(Game.GetLocalPlayer(),NotificationTypes.CONSIDER_GOVERNMENT_CHANGE, msgString, msg, pCapital:GetX(), pCapital:GetY());
 	end
 end
 
-Events.GovernmentChanged.Add( OnGovernmentChanged );
+
 
 local bKnight = false
 local bGalley = false
@@ -313,118 +292,93 @@ local bCara = false
 local bFrigate = false
 local bBattleship = false
 -- Great People
+
+
 function OnUnitAddedToMap(playerID, unitID, x, y)
-	local bspec = false
-	if (Game:GetProperty("SPEC_NUM") ~= nil) then
-		for k = 1, Game:GetProperty("SPEC_NUM") do
-			if ( Game:GetProperty("SPEC_ID_"..k)~= nil) then
-				if Game.GetLocalPlayer() == Game:GetProperty("SPEC_ID_"..k) then
-					bspec = true
-				end
-			end
-		end
+	if playerID == nil or Players[playerID] == nil then
+		return
 	end
-	--if (Game:GetProperty("SPEC_ID") ~= nil) then
-		if ( bspec == true and Players[playerID]:IsMajor() == true) then
+		if ( Players[playerID]:IsMajor() == true) then
 			local pPlayer = Players[playerID];
 			local pUnit = pPlayer:GetUnits():FindID(unitID);
+			if pUnit == nil then
+				return
+			end
 			local unitTypeName = UnitManager.GetTypeName(pUnit);
-			local unitGreatPerson = pUnit:GetGreatPerson()
 			local msg = ""
-			local dur = 5
+			local msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_FIRST_UNIT_MESSAGE" );
 			if (unitTypeName == "UNIT_GALLEY" and bGalley == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has built the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bGalley = true
 			end
 			if (unitTypeName == "UNIT_KNIGHT" and bKnight == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has trained the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());	
 				bKnight = true
 			end
 			if (unitTypeName == "UNIT_SWORDSMAN" and bSword == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has trained the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bSword = true
 			end
 			if (unitTypeName == "UNIT_CROSSBOWMAN" and bCross == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has trained the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bCross = true
 			end
 			if (unitTypeName == "UNIT_MUSKETMAN" and bMusket == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has trained the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bMusket = true
 			end
 			if (unitTypeName == "UNIT_BOMBARD" and bBombard == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has built the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bBombard = true
 			end
 			if (unitTypeName == "UNIT_FIELD_CANNON" and bField == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has built the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bField = true
 			end
 			if (unitTypeName == "UNIT_TANK" and bTank == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has built the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bTank = true
 			end
 			if (unitTypeName == "UNIT_CARAVEL" and bCara == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has built the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bCara = true
 			end
 			if (unitTypeName == "UNIT_FRIGATE" and bFrigate == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has built the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bFrigate = true
 			end
 			if (unitTypeName == "UNIT_BATTLESHIP" and bBattleship == false) then
 				unitName = Locale.Lookup(GameInfo.Units[unitTypeName].Name)
 				msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has built the first "..unitName
-				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.BARBARIANS_SIGHTED, msgString, msg, pUnit:GetX(), pUnit:GetY());
 				bBattleship = true
 			end
-			if ( unitGreatPerson ~= nil ) then
-				local individual = unitGreatPerson:GetIndividual();
-				if ( individual > 1) then
-					if  GameInfo.GreatPersonIndividuals[individual] ~= nil then
-						personName = Locale.Lookup(GameInfo.GreatPersonIndividuals[individual].Name);
-						msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has recruited "..personName
-						dur = 15
-						StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
-					end  
-				end
-			end
-			
-		end
-	--end
+
+		end	
+
+
 end
-Events.UnitAddedToMap.Add(			OnUnitAddedToMap );
+
 
 local bHypatia = false
 local bNewton = false
@@ -443,19 +397,7 @@ local bBentz = false
 
 
 function GPData()
-	--print("	GPData()")
-	local bspec = false
-	if (Game:GetProperty("SPEC_NUM") ~= nil) then
-		for k = 1, Game:GetProperty("SPEC_NUM") do
-			if ( Game:GetProperty("SPEC_ID_"..k)~= nil) then
-				if Game.GetLocalPlayer() == Game:GetProperty("SPEC_ID_"..k) then
-					bspec = true
-				end
-			end
-		end
-	end
 
-	if ( bspec == true) then
 	local pGreatPeople	:table  = Game.GetGreatPeople();
 	if pGreatPeople == nil then
 		UI.DataError("GreatPeoplePopup received NIL great people object.");
@@ -491,66 +433,65 @@ function GPData()
 				local individualInfo = GameInfo.GreatPersonIndividuals[entry.Individual];
 				actionCharges = individualInfo.ActionCharges;
 			end
-			
+			local msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_STRONG_GP_MESSAGE" );
 			local personName:string = "";
 			if  GameInfo.GreatPersonIndividuals[entry.Individual] ~= nil then
 				personName = Locale.Lookup(GameInfo.GreatPersonIndividuals[entry.Individual].Name);
 			end  
 
-			--print("GPData", entry.Individual, entry.Class, entry.Era, entry.Claimant, personName)
 
 			if (bHypatia == false and entry.Individual == 130 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bHypatia = true
 			end
 			if (bNewton == false and entry.Individual == 135 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bNewton = true
 			end
 			if (bElCid == false and entry.Individual == 60 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bElCid = true
 			end
 			if (bBonaparte == false and entry.Individual == 64 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bBonaparte = true
 			end
 			if (bEinstein == false and entry.Individual == 64 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bEinstein = true
 			end
 			if (bBreedlove == false and entry.Individual == 89 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bBreedlove = true
 			end
 			if (bDuilius == false and entry.Individual == 1 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bDuilius = true
 			end
 			if (bCruz == false and entry.Individual == 7 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bCruz = true
 			end
 			if (bGoddard == false and entry.Individual == 49 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bGoddard = true
 			end
 			--if (bKwolek == false and entry.Individual == 49 and entry.Claimant == nil) then
@@ -562,23 +503,50 @@ function GPData()
 			if (bKorolev == false and entry.Individual == 52 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bKorolev  = true
 			end
 			if (bBraun == false and entry.Individual == 55 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bBraun  = true
 			end
 			if (bBentz == false and entry.Individual == 91 and entry.Claimant == nil) then
 				msg = personName.." is now available!"
 				dur = 15
-				StatusMessage( msg, dur, ReportingStatusTypes.DEFAULT )
+				NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.CHOOSE_RELIGION, msgString, msg);
 				bBentz  = true
 			end
 
 	end
+
+end
+
+
+
+function OnLocalPlayerTurnBeginNotification()
+	GPData()	
+end
+
+function Initialize()
+
+	if Game.GetLocalPlayer() == nil or Players[Game.GetLocalPlayer()] == nil then
+		return
+	end
+	
+	if PlayerConfigurations[Game.GetLocalPlayer()]:GetLeaderTypeName() == "LEADER_SPECTATOR" then
+		-- only subscribe for Spectators
+		Events.CityAddedToMap.Add( 									OnCityAddedToMap );
+		Events.UnitAddedToMap.Add(									OnUnitAddedToMap );
+		Events.GovernmentChanged.Add( 								OnGovernmentChanged );
+		Events.BuildingAddedToMap.Add( 								OnBuildingAddedToMap );
+		Events.PantheonFounded.Add(									OnPantheonFounded)
+		Events.GoodyHutReward.Add(									OnGoodyHutReward );
+		Events.LocalPlayerTurnBegin.Add(							OnLocalPlayerTurnBeginNotification );
+		Events.UnitCaptured.Add(									OnUnitCaptured);
 	end
 
 end
+
+Initialize()

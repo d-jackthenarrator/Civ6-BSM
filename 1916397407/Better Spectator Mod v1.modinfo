@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mod id="c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" version="117">
+<Mod id="c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" version="118">
   <Properties>
     <Name>LOC_BSM_TITLE</Name>
     <Description>Allows to play as an Observer. [NEWLINE]In the lobby players in the top 4 slots can choose the Spectator leader. [NEWLINE] In game use the diplomacy ribbon to click on leader and gain their POV and more.</Description>
@@ -13,8 +13,8 @@
   
   	<LocalizedText>
 		<Text id="LOC_BSM_TITLE">
-			<en_US>Better Spectator Mod v1.1.7</en_US>
-			<fr_FR>Better Spectator Mod v1.1.7</fr_FR>
+			<en_US>Better Spectator Mod v1.1.8</en_US>
+			<fr_FR>Better Spectator Mod v1.1.8</fr_FR>
 		</Text>
 		<Text id="LOC_BSM_TEASER">
 			<en_US>Allows to play as an Observer</en_US>
@@ -40,21 +40,7 @@
     <Criteria id="LeaderCriteriaExpansion2">
       <LeaderPlayable>Players:Expansion2_Players::LEADER_SPECTATOR</LeaderPlayable>
     </Criteria>
-		<Criteria id="MOD:_BBS">
-      			<ModInUse>c88cba8b-8311-4d35-90c3-51a4a5d6654f</ModInUse>
-   		 </Criteria>
-		 <Criteria id="MOD:_BBSBeta">
-      			<ModInUse>4e835bfa-de8b-4093-86e7-25ac44fa9fc6</ModInUse>
-   		 </Criteria>
-   		 <Criteria id="MOD:_BBG">
-      			<ModInUse>cb84074d-5007-4207-b662-c35a5f7be240</ModInUse>
-   		 </Criteria>
-		  <Criteria id="MOD:_BBGBeta">
-      			<ModInUse>cb84074d-5007-4207-b662-c35a5f7be230</ModInUse>
-   		 </Criteria>
-   		 <Criteria id="MOD:_MPH">
-      			<ModInUse>619ac86e-d99d-4bf3-b8f0-8c5b8c402176</ModInUse>
-   		 </Criteria>
+
 	</ActionCriteria>
 
    <InGameActions>
@@ -96,31 +82,19 @@
 		<File>Lang/Text_EN.xml</File>
     </UpdateText>
 
-	<ReplaceUIScript id="Spectator_StatusMessagePanel" criteria="Expansion2">
-		<Properties>
-			<LoadOrder>9999</LoadOrder>
-			<LuaContext>StatusMessagePanel</LuaContext>
-			<LuaReplace>UI/StatusMessagePanel_Spectator.lua</LuaReplace>
-		</Properties>
-	</ReplaceUIScript>
-	<ImportFiles id="Spectator_StatusMessagePanel" criteria="Expansion2">
-		<Properties>
-			<LoadOrder>9999</LoadOrder>
-		 </Properties>
-		<File>UI/StatusMessagePanel.xml</File>
-	</ImportFiles>
+
 	<ReplaceUIScript id="Spectator_UnitPanel" criteria="Expansion2">
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
 			<LuaContext>UnitPanel</LuaContext>
-			<LuaReplace>UI/UnitPanel_Spectator.lua</LuaReplace>
+			<LuaReplace>UI/Replacements/unitpanel_spec.lua</LuaReplace>
 		</Properties>
 	</ReplaceUIScript>
 	<ReplaceUIScript id="Spectator_LaunchBar" criteria="Expansion2">
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
 			<LuaContext>LaunchBar</LuaContext>
-			<LuaReplace>UI/LaunchBar_Spectator.lua</LuaReplace>
+			<LuaReplace>UI/Replacements/launchbar_spec.lua</LuaReplace>
 		</Properties>
 	</ReplaceUIScript>
 	<ReplaceUIScript id="Spectator_PlotToolTip" criteria="Expansion2">
@@ -134,20 +108,14 @@
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
 			<LuaContext>DiplomacyRibbon</LuaContext>
-			<LuaReplace>UI/DiplomacyRibbon_Spectator.lua</LuaReplace>
+			<LuaReplace>UI/Replacements/diplomacyribbon_spec.lua</LuaReplace>
 		</Properties>
 	</ReplaceUIScript>
-	<ImportFiles id="Spectator_DiplomacyRibbon" criteria="Expansion2">
-		<Properties>
-			<LoadOrder>9999</LoadOrder>
-		 </Properties>
-		<File>UI/DiplomacyRibbon.xml</File>
-	</ImportFiles>
 	<ReplaceUIScript id="Spectator_DiplomacyActionView" criteria="Expansion2">
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
 			<LuaContext>DiplomacyActionView</LuaContext>
-			<LuaReplace>UI/DiplomacyActionView_Spectator.lua</LuaReplace>
+			<LuaReplace>UI/Replacements/diplomacyactionview_spec.lua</LuaReplace>
 		</Properties>
 	</ReplaceUIScript>
 	<ReplaceUIScript id="Spectator_TopPanel" criteria="Expansion2">
@@ -155,20 +123,6 @@
 			<LoadOrder>9999</LoadOrder>
 			<LuaContext>TopPanel</LuaContext>
 			<LuaReplace>UI/TopPanel_Spectator.lua</LuaReplace>
-		</Properties>
-	</ReplaceUIScript>
-	<ReplaceUIScript id="Spectator_TechTree" criteria="Expansion2">
-		<Properties>
-			<LoadOrder>9999</LoadOrder>
-			<LuaContext>TechTree</LuaContext>
-			<LuaReplace>UI/TechTree_Spectator.lua</LuaReplace>
-		</Properties>
-	</ReplaceUIScript>
-	<ReplaceUIScript id="CivicsTree_Spectator" criteria="Expansion2">
-		<Properties>
-			<LoadOrder>9999</LoadOrder>
-			<LuaContext>CivicsTree</LuaContext>
-			<LuaReplace>UI/CivicsTree_Spectator.lua</LuaReplace>
 		</Properties>
 	</ReplaceUIScript>
 	<ReplaceUIScript id="Spectator_PartialScreenHooks" criteria="Expansion2">
@@ -182,7 +136,7 @@
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
 			<LuaContext>GovernmentScreen</LuaContext>
-			<LuaReplace>UI/GovernmentScreen_Spectator.lua</LuaReplace>
+			<LuaReplace>UI/Replacements/governmentscreen_spec.lua</LuaReplace>
 		</Properties>
 	</ReplaceUIScript>
 	<ReplaceUIScript id="Spectator_ReportScreen" criteria="Expansion2">
@@ -192,6 +146,13 @@
 			<LuaReplace>UI/ReportScreen_Spectator.lua</LuaReplace>
 		</Properties>
 	</ReplaceUIScript>
+	<ReplaceUIScript id="Spectator_WorldInput" criteria="Expansion2">
+			<Properties>
+				<LoadOrder>9999</LoadOrder>
+				<LuaContext>WorldInput</LuaContext>
+				<LuaReplace>UI/Replacements/worldinput_spec.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
 
 	<ImportFiles id="Spectator_ToolTipHelper_PlayerYields">
 		<Properties>
@@ -199,42 +160,8 @@
 		</Properties>
 		<File>UI/ToolTipHelper_PlayerYields.lua</File>
 	</ImportFiles>
-	<ImportFiles id="Spectator_LeaderIcon">
-		<Properties>
-			<LoadOrder>9999</LoadOrder>
-		</Properties>
-		<File>UI/LeaderIcon.lua</File>
-	</ImportFiles>
-	<ImportFiles id="Spectator_GovernorPanel">
-		<Properties>
-			<LoadOrder>9999</LoadOrder>
-		</Properties>
-		<File>UI/GovernorPanel.lua</File>
-	</ImportFiles>
-	<ImportFiles id="Spectator_GreatWorkShowcase">
-		<Properties>
-			<LoadOrder>0</LoadOrder>
-		</Properties>
-		<File>UI/GreatWorkShowcase.lua</File>
-	</ImportFiles>
-	<ImportFiles id="Spectator_GreatWorksOverview">
-		<Properties>
-			<LoadOrder>0</LoadOrder>
-		</Properties>
-		<File>UI/GreatWorksOverview.lua</File>
-	</ImportFiles>
-	<ImportFiles id="Spectator_WorldTracker">
-		<Properties>
-			<LoadOrder>0</LoadOrder>
-		</Properties>
-		<File>UI/WorldTracker.lua</File>
-	</ImportFiles>
-	<ImportFiles id="Spectator_UnitFlagManager">
-		<Properties>
-			<LoadOrder>9999</LoadOrder>
-		</Properties>
-		<File>UI/UnitFlagManager.lua</File>
-	</ImportFiles>
+
+
 	<ImportFiles id="Spectator_CityStates">
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
@@ -247,19 +174,36 @@
 		</Properties>
 		<File>UI/WorldViewIconsManager.lua</File>
 	</ImportFiles>
-	<ImportFiles id="Spectator_CityBannerManager">
+	<ImportFiles id="Spectator_CityBannerManager_Hard_Replacement_UI">
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
 		</Properties>
-		<File>UI/CityBannerManager.xml</File>
-		<File>UI/CityBannerManager.lua</File>
-	</ImportFiles>
-	<ImportFiles id="Spectator_MapSearch">
+		<File>UI/Replacements/CityBannerManager.lua</File>
+		<File>UI/Replacements/CityBannerManager.xml</File>
+	</ImportFiles>	
+	<ImportFiles id="Spectator_Replacement_UI">
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
 		</Properties>
-		<File>UI/MapSearchPanel_Spectator.lua</File>
+		<File>UI/Replacements/civicstree_spec.lua</File>
+		<File>UI/Replacements/diplomacyactionview_spec.lua</File>
+		<File>UI/Replacements/diplomacyribbon.xml</File>
+		<File>UI/Replacements/diplomacyribbon_spec.lua</File>
+		<File>UI/Replacements/governmentscreen_spec.lua</File>
+		<File>UI/Replacements/greatworkshowcase.lua</File>
+		<File>UI/Replacements/greatworksoverview.lua</File>
+		<File>UI/Replacements/launchbar_spec.lua</File>
+		<File>UI/Replacements/leadericon.lua</File>
+		<File>UI/Replacements/mapsearchpanel_spec.lua</File>
+		<File>UI/Replacements/statusmessagepanel.xml</File>
+		<File>UI/Replacements/statusmessagepanel.lua</File>
+		<File>UI/Replacements/techtree_spec.lua</File>
+		<File>UI/Replacements/unitflagmanager.lua</File>
+		<File>UI/Replacements/unitpanel_spec.lua</File>
+		<File>UI/Replacements/worldinput_spec.lua</File>
+		<File>UI/Replacements/worldtracker.lua</File>
 	</ImportFiles>
+
 
 
  </InGameActions>
@@ -281,19 +225,6 @@
         <UpdateDatabase id="BSM_SETTINGS">
             	<File>Configuration/Config.xml</File>
         </UpdateDatabase>
-		        <UpdateDatabase id="BSM_SETTINGS">
-				            <Properties>
-                <LoadOrder>20000</LoadOrder>
-            </Properties>
-			<Criteria>MOD:_BBSBeta</Criteria>
-            <File>Configuration/Config_Beta.xml</File>
-        </UpdateDatabase>
-    	<UpdateDatabase id="Spectator_Inject_Slot" criteria="OneSpec_Mode_Expansion2">
-      		<Properties>
-        		<LoadOrder>99999</LoadOrder>
-      		</Properties>
-      		<File>SPECTATOR_OneSpec_FE.sql</File>
-    	</UpdateDatabase>
 			<ImportFiles id="Spectator_LoadScreen">
 		<Properties>
 			<LoadOrder>9999</LoadOrder>
@@ -316,33 +247,41 @@
 	<File>UI/LoadScreen.lua</File>
 	<File>UI/Spectator_UI.xml</File>
 	<File>UI/Spectator_UI.lua</File>
-	<File>UI/GovernorPanel.lua</File>
-	<File>UI/GovernmentScreen_Spectator.lua</File>
-	<File>UI/UnitPanel_Spectator.lua</File>
 	<File>UI/CityStates.lua</File>
-	<File>UI/UnitFlagManager.lua</File>
-	<File>UI/DiplomacyRibbon.xml</File>
-	<File>UI/DiplomacyRibbon_Spectator.lua</File>
-	<File>UI/LaunchBar_Spectator.lua</File>
-	<File>UI/DiplomacyActionView_Spectator.lua</File>
-	<File>UI/MapSearchPanel_Spectator.lua</File>
+
 	<File>UI/WorldRankings_Spectator.lua</File>
 	<File>UI/PlotToolTip_Spectator.lua</File>
 	<File>UI/TopPanel_Spectator.lua</File>
 	<File>UI/GreatWorksOverview.lua</File>
 	<File>UI/GreatWorkShowcase.lua</File>
-	<File>UI/TechTree_Spectator.lua</File>
-	<File>UI/CivicsTree_Spectator.lua</File>
 	<File>UI/ReportScreen_Spectator.lua</File>
-	<File>UI/WorldTracker.lua</File>
 	<File>UI/PartialScreenHooks_Spectator.lua</File>
 	<File>UI/WorldViewIconsManager.lua</File>
 	<File>UI/CityStates.lua</File>
-	<File>UI/LeaderIcon.lua</File>
-	<File>UI/StatusMessagePanel_Spectator.lua</File>
-	<File>UI/StatusMessagePanel.xml</File>
-	<File>UI/CityBannerManager.lua</File>
-	<File>UI/CityBannerManager.xml</File>
+
+
+	
+		<File>UI/Replacements/CityBannerManager.lua</File>
+		<File>UI/Replacements/CityBannerManager.xml</File>
+		
+		<File>UI/Replacements/civicstree_spec.lua</File>
+		<File>UI/Replacements/diplomacyactionview_spec.lua</File>
+		<File>UI/Replacements/diplomacyribbon.xml</File>
+		<File>UI/Replacements/diplomacyribbon_spec.lua</File>
+		<File>UI/Replacements/governmentscreen_spec.lua</File>
+		<File>UI/Replacements/greatworkshowcase.lua</File>
+		<File>UI/Replacements/greatworksoverview.lua</File>
+		<File>UI/Replacements/launchbar_spec.lua</File>
+		<File>UI/Replacements/leadericon.lua</File>
+		<File>UI/Replacements/mapsearchpanel_spec.lua</File>
+		<File>UI/Replacements/statusmessagepanel.xml</File>
+		<File>UI/Replacements/statusmessagepanel.lua</File>
+		<File>UI/Replacements/techtree_spec.lua</File>
+		<File>UI/Replacements/unitflagmanager.lua</File>
+		<File>UI/Replacements/unitpanel_spec.lua</File>
+		<File>UI/Replacements/worldinput_spec.lua</File>
+		<File>UI/Replacements/worldtracker.lua</File>
+
 
 
 	<File>Configuration/Config.xml</File>

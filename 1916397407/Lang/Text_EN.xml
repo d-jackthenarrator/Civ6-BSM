@@ -102,6 +102,60 @@
 			<Text>Spectator</Text>
 		</Row>
 		
-	
+		<!-- Notifications, Message is the Tag, Summary the description-->
+		<Row Tag="LOC_BSM_NOTIFICATION_DELAYED_B1_MESSAGE" Language="en_US">
+			<Text>Delayed B1</Text>
+		</Row>	
+		<Row Tag="LOC_BSM_NOTIFICATION_DELAYED_B1_SUMMARY" Language="en_US">
+			<Text>Delayed First City</Text>
+		</Row>
+		<Row Tag="LOC_BSM_NOTIFICATION_B2_MESSAGE" Language="en_US">
+			<Text>B2 Settled</Text>
+		</Row>	
+		<Row Tag="LOC_BSM_NOTIFICATION_B2_SUMMARY" Language="en_US">
+			<Text>Second Settlement</Text>
+		</Row>
+		<Row Tag="LOC_BSM_NOTIFICATION_B3_MESSAGE" Language="en_US">
+			<Text>B3 Settled</Text>
+		</Row>	
+		<Row Tag="LOC_BSM_NOTIFICATION_B3_SUMMARY" Language="en_US">
+			<Text>Third Settlement</Text>
+		</Row>
+		<Row Tag="LOC_BSM_NOTIFICATION_B10_MESSAGE" Language="en_US">
+			<Text>B10 Settled!</Text>
+		</Row>	
+		<Row Tag="LOC_BSM_NOTIFICATION_B10_SUMMARY" Language="en_US">
+			<Text>This player has just put down his/her 10th city</Text>
+		</Row>
+		<Row Tag="LOC_BSM_NOTIFICATION_B20_MESSAGE" Language="en_US">
+			<Text>B20 Settled!</Text>
+		</Row>	
+		<Row Tag="LOC_BSM_NOTIFICATION_B20_SUMMARY" Language="en_US">
+			<Text>This player has just put down his/her 20th city !!</Text>
+		</Row>	
+		<Row Tag="LOC_BSM_NOTIFICATION_GOODY_MESSAGE" Language="en_US">
+			<Text>Goody Hut Taken</Text>
+		</Row>		
+		<Row Tag="LOC_BSM_NOTIFICATION_GOV_CHANGE_MESSAGE" Language="en_US">
+			<Text>Governement Change</Text>
+		</Row>		
+		<Row Tag="LOC_BSM_NOTIFICATION_WONDER_STARTED_MESSAGE" Language="en_US">
+			<Text>Wonder Started</Text>
+		</Row>
+		<Row Tag="LOC_BSM_NOTIFICATION_PANTHEON_MESSAGE" Language="en_US">
+			<Text>Pantheon Founded</Text>
+		</Row>	
+		<Row Tag="LOC_BSM_NOTIFICATION_SETTLER_MESSAGE" Language="en_US">
+			<Text>Settler Lost</Text>
+		</Row>				
+		<Row Tag="LOC_BSM_NOTIFICATION_SETTLER_SUMMARY" Language="en_US">
+			<Text>Settler has been captured!!</Text>
+		</Row>	
+		<Row Tag="LOC_BSM_NOTIFICATION_FIRST_UNIT_MESSAGE" Language="en_US">
+			<Text>First World Unit</Text>
+		</Row>			
+		<Row Tag="LOC_BSM_NOTIFICATION_STRONG_GP_MESSAGE" Language="en_US">
+			<Text>Key Great-Person</Text>
+		</Row>		
   </LocalizedText>
 </GameData>
