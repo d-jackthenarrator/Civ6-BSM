@@ -1261,6 +1261,10 @@ function CityBanner:UpdateGovernor(pCity:table)
 			local instance:table = self.m_StatGovernorIM:GetInstance();
 			instance.NumOfAmbassadors:SetText("");
 
+				instance.UnknownGovernor:SetHide(true);
+				local icon = "ICON_" .. GameInfo.Governors[pGovernor:GetType()].GovernorType;
+				instance.SlotMeter:SetTexture(IconManager:FindIconAtlas(icon .. "_SLOT", 32));
+				instance.FillMeter:SetTexture(IconManager:FindIconAtlas(icon .. "_FILL", 32));
 
 					if (pGovernor:IsEstablished()) then
 						instance.TurnsLeft:SetText("");
@@ -1991,6 +1995,7 @@ function CityBanner:UpdateName()
 			else
 				tooltip = Locale.Lookup(cityName);
 			end
+			cityName = Locale.Lookup(cityName)
 			local team1Name = GameConfiguration.GetValue("BSM_TEAM1");
 			local team2Name = GameConfiguration.GetValue("BSM_TEAM2");
 			if team1Name ~= nil and team1Name ~= "" and PlayerConfigurations[owner]:GetTeam() == 0 then
