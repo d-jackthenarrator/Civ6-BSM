@@ -13,6 +13,7 @@ local b_trees = false
 local b_era = false
 local b_army = false
 local b_yield = false
+local b_accu = false
 local b_teamer = false
 local bspec_game = false
 local bspec_loc = false
@@ -77,6 +78,7 @@ function OnScoreMouseClick()
 		b_eras = false
 		b_army = false
 		b_yield = false
+		b_accu = false
 	end
 	UpdateLeaders()
 end
@@ -93,6 +95,7 @@ function OnTreesMouseClick()
 		b_eras = false
 		b_army = false
 		b_yield = false
+		b_accu = false
 	end
 	UpdateLeaders()
 end
@@ -109,6 +112,7 @@ function OnErasMouseClick()
 		b_eras = true
 		b_army = false
 		b_yield = false
+		b_accu = false
 	end
 	UpdateLeaders()
 end
@@ -125,6 +129,7 @@ function OnArmyMouseClick()
 		b_eras = false
 		b_army = true
 		b_yield = false
+		b_accu = false
 	end
 	UpdateLeaders()
 end
@@ -140,6 +145,22 @@ function OnYieldMouseClick()
 		b_eras = false
 		b_army = false
 		b_yield = true
+		b_accu = false
+	end
+	UpdateLeaders()
+end
+
+function OnTotalMouseClick()
+	UI.PlaySound("Play_UI_Click");
+	if b_accu == true then
+		b_accu = false
+		else
+		b_score = false
+		b_trees = false
+		b_eras = false
+		b_army = false
+		b_yield = false
+		b_accu = true
 	end
 	UpdateLeaders()
 end
@@ -430,6 +451,7 @@ function HideSpecInfo(toogle:boolean,uiLeader:table)
 	uiLeader.SpecControl_3:SetHide( toogle )
 	uiLeader.SpecControl_4:SetHide( toogle )
 	uiLeader.SpecControl_5:SetHide( toogle )
+	uiLeader.SpecControl_6:SetHide( toogle )
 	uiLeader.CultureButton:SetHide( toogle )
 	uiLeader.CultureMeter:SetHide( toogle )
 	uiLeader.CultureHookWithMeter:SetHide( toogle )
@@ -443,6 +465,8 @@ function HideSpecInfo(toogle:boolean,uiLeader:table)
 	
 	uiLeader.Governement:SetHide( toogle )
 	uiLeader.Cities:SetHide( toogle )
+	uiLeader.Cities_Prod:SetHide( toogle )
+	 uiLeader.Cities_Food:SetHide( toogle );
 	uiLeader.CurrentAge:SetHide( toogle )
 	uiLeader.CurrentAge0:SetHide( toogle )
 	uiLeader.EraScore:SetHide( toogle )
@@ -456,6 +480,10 @@ function HideSpecInfo(toogle:boolean,uiLeader:table)
 	
 	uiLeader.FaithperTurn:SetHide( toogle )
 	uiLeader.GoldperTurn:SetHide( toogle )
+			uiLeader.Total_Gold:SetHide( toogle );								   									
+		uiLeader.Total_Science:SetHide( toogle);
+		uiLeader.Total_Culture:SetHide( toogle );
+		uiLeader.Total_Faith:SetHide( toogle );
 end
 
 
@@ -602,6 +630,15 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 			uiLeader.SpecControl_5:SetText("Yield")
 		end
 	end
+	uiLeader.SpecControl_6:SetHide( isHidePhase1  or not bspec_loc)
+	if uiLeader.SpecControl_6 ~= nil then
+		uiLeader.SpecControl_6:RegisterCallback( Mouse.eLClick, OnTotalMouseClick)
+		if b_accu == true then
+			uiLeader.SpecControl_6:SetText("[COLOR_Green]Total[ENDCOLOR]")
+			else
+			uiLeader.SpecControl_6:SetText("Total")
+		end
+	end
 	uiLeader.Data8:SetText( "  Observer ")
 
 	uiLeader.CultureButton:SetHide( isHideSciCul )
@@ -617,6 +654,8 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 	
 	uiLeader.Governement:SetHide( true )
 	uiLeader.Cities:SetHide( true )
+	uiLeader.Cities_Prod:SetHide( true )
+	 uiLeader.Cities_Food:SetHide( true );
 	uiLeader.CurrentAge:SetHide( true )
 	uiLeader.CurrentAge0:SetHide( true )
 	uiLeader.EraScore:SetHide( true )
@@ -630,6 +669,10 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 	
 	uiLeader.FaithperTurn:SetHide( true )
 	uiLeader.GoldperTurn:SetHide( true )
+			uiLeader.Total_Gold:SetHide( true );								   									
+		uiLeader.Total_Science:SetHide( true );
+		uiLeader.Total_Culture:SetHide( true );
+		uiLeader.Total_Faith:SetHide( true );
 	
 	if b_score == true then
 		uiLeader.Favor:SetHide( false or bIsSpec);								   									
@@ -653,6 +696,8 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 		
 		uiLeader.Governement:SetHide( true )
 		uiLeader.Cities:SetHide( true )
+		uiLeader.Cities_Prod:SetHide( true )
+		 uiLeader.Cities_Food:SetHide( true );
 		uiLeader.CurrentAge:SetHide( true )
 		uiLeader.CurrentAge0:SetHide( true )
 		uiLeader.EraScore:SetHide( true )
@@ -666,6 +711,10 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 		
 		uiLeader.FaithperTurn:SetHide( true )
 		uiLeader.GoldperTurn:SetHide( true )
+				uiLeader.Total_Gold:SetHide( true );								   									
+		uiLeader.Total_Science:SetHide( true );
+		uiLeader.Total_Culture:SetHide( true );
+		uiLeader.Total_Faith:SetHide( true );
 	end
 	
 	if b_trees == true then
@@ -690,6 +739,8 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 		
 		uiLeader.Governement:SetHide( true )
 		uiLeader.Cities:SetHide( true )
+		uiLeader.Cities_Prod:SetHide( true )
+		 uiLeader.Cities_Food:SetHide( true );
 		uiLeader.CurrentAge:SetHide( true )
 		uiLeader.CurrentAge0:SetHide( true )
 		uiLeader.EraScore:SetHide( true )
@@ -703,6 +754,10 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 		
 		uiLeader.FaithperTurn:SetHide( true )
 		uiLeader.GoldperTurn:SetHide( true )
+				uiLeader.Total_Gold:SetHide( true );								   									
+		uiLeader.Total_Science:SetHide( true );
+		uiLeader.Total_Culture:SetHide( true );
+		uiLeader.Total_Faith:SetHide( true );
 	end
 	
 	if b_eras == true then
@@ -727,6 +782,7 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 		
 		uiLeader.Governement:SetHide( false or bIsSpec)
 		uiLeader.Cities:SetHide( false or bIsSpec)
+	
 		uiLeader.CurrentAge:SetHide( false or bIsSpec)
 		uiLeader.CurrentAge0:SetHide( false or bIsSpec)
 		uiLeader.EraScore:SetHide( false or bIsSpec)
@@ -740,6 +796,12 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 	
 		uiLeader.FaithperTurn:SetHide( true )
 	uiLeader.GoldperTurn:SetHide( true )
+		uiLeader.Cities_Prod:SetHide( true)
+		 uiLeader.Cities_Food:SetHide( true );
+		 		uiLeader.Total_Gold:SetHide( true );								   									
+		uiLeader.Total_Science:SetHide( true );
+		uiLeader.Total_Culture:SetHide( true );
+		uiLeader.Total_Faith:SetHide( true );
 	end
 	
 	if b_army == true then
@@ -764,6 +826,8 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 		
 		uiLeader.Governement:SetHide( true )
 		uiLeader.Cities:SetHide( true )
+		uiLeader.Cities_Prod:SetHide( true )
+		 uiLeader.Cities_Food:SetHide( true );
 		uiLeader.CurrentAge:SetHide( true )
 		uiLeader.CurrentAge0:SetHide( true )
 		uiLeader.EraScore:SetHide( true )
@@ -777,6 +841,10 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 	
 	uiLeader.FaithperTurn:SetHide( true )
 	uiLeader.GoldperTurn:SetHide( true )
+			uiLeader.Total_Gold:SetHide( true );								   									
+		uiLeader.Total_Science:SetHide( true );
+		uiLeader.Total_Culture:SetHide( true );
+		uiLeader.Total_Faith:SetHide( true );
 	end
 	
 	if b_yield == true then
@@ -801,6 +869,7 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 		
 		uiLeader.Governement:SetHide( true )
 		uiLeader.Cities:SetHide( true )
+		
 		uiLeader.CurrentAge:SetHide( true )
 		uiLeader.CurrentAge0:SetHide( true )
 		uiLeader.EraScore:SetHide( true )
@@ -814,6 +883,58 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 	
 		uiLeader.FaithperTurn:SetHide( false  or bIsSpec)
 		uiLeader.GoldperTurn:SetHide( false  or bIsSpec)
+		uiLeader.Cities_Prod:SetHide( false  or bIsSpec )
+		uiLeader.Cities_Food:SetHide( false  or bIsSpec )
+		
+		uiLeader.Total_Gold:SetHide( true );								   									
+		uiLeader.Total_Science:SetHide( true );
+		uiLeader.Total_Culture:SetHide( true );
+		uiLeader.Total_Faith:SetHide( true );
+	end
+	
+		if b_accu == true then
+		uiLeader.Favor:SetHide( true );								   									
+		uiLeader.Score:SetHide( true );
+		uiLeader.Military:SetHide( true );
+		uiLeader.Science:SetHide( true)
+		uiLeader.Culture:SetHide( true)
+		uiLeader.Gold:SetHide( true );
+		uiLeader.Faith:SetHide( true );
+		
+		uiLeader.CultureButton:SetHide( true )
+		uiLeader.CultureMeter:SetHide( true )
+		uiLeader.CultureHookWithMeter:SetHide( true )
+		uiLeader.CultureText:SetHide( true )
+		uiLeader.CultureTurnsLeft:SetHide( true )
+		uiLeader.ScienceButton:SetHide( true )
+		uiLeader.ScienceMeter:SetHide( true )
+		uiLeader.ScienceHookWithMeter:SetHide( true )
+		uiLeader.ScienceText:SetHide(true )
+		uiLeader.ScienceTurnsLeft:SetHide( true )
+		
+		uiLeader.Governement:SetHide( true )
+		uiLeader.Cities:SetHide( true )
+		
+		uiLeader.CurrentAge:SetHide( true )
+		uiLeader.CurrentAge0:SetHide( true )
+		uiLeader.EraScore:SetHide( true )
+		uiLeader.EraScore0:SetHide( true )
+		
+	uiLeader.LandUnit:SetHide( true )
+	uiLeader.NavyUnit:SetHide( true )
+	uiLeader.AirUnit:SetHide( true )
+	uiLeader.Strategic1:SetHide( true )
+	uiLeader.Nukes:SetHide( true )
+	
+		uiLeader.FaithperTurn:SetHide( true )
+		uiLeader.GoldperTurn:SetHide( true )
+		uiLeader.Cities_Prod:SetHide( true )
+		uiLeader.Cities_Food:SetHide( true )
+		
+		uiLeader.Total_Gold:SetHide( false  or bIsSpec );								   									
+		uiLeader.Total_Science:SetHide( false  or bIsSpec);
+		uiLeader.Total_Culture:SetHide( false  or bIsSpec );
+		uiLeader.Total_Faith:SetHide( false  or bIsSpec );
 	end
 	
 	UpdateStatValues( playerID, uiLeader );
@@ -896,6 +1017,31 @@ function UpdateStatValues( playerID:number, uiLeader:table )
   		end
 		str = numCities .. "[ICON_Housing] ".. ERD_Total_Population .. " [ICON_Citizen]"
 		uiLeader.Cities:SetText(str); 
+	end
+	
+	if uiLeader.Cities_Prod:IsVisible() then 
+	  	local cities = Players[playerID]:GetCities();
+		local str = ""
+  		local numCities = 0;
+  		local ERD_Total_Prod = 0;
+  		for i,city in cities:Members() do
+			ERD_Total_Prod = ERD_Total_Prod + math.floor( city:GetYield( YieldTypes.PRODUCTION )) ;
+    			numCities = numCities + 1;
+  		end
+		str = "[ICON_Production]"..ERD_Total_Prod
+		uiLeader.Cities_Prod:SetText(str); 
+	end
+	if uiLeader.Cities_Food:IsVisible() then 
+	  	local cities = Players[playerID]:GetCities();
+		local str = ""
+  		local numCities = 0;
+  		local ERD_Total_Food = 0;
+  		for i,city in cities:Members() do
+			ERD_Total_Food = ERD_Total_Food + math.floor( city:GetYield( YieldTypes.Food )) ;
+    			numCities = numCities + 1;
+  		end
+		str = "[ICON_Food]"..ERD_Total_Food
+		uiLeader.Cities_Food:SetText(str); 
 	end
 	
 	if uiLeader.CurrentAge:IsVisible() then 
@@ -1078,5 +1224,97 @@ function UpdateStatValues( playerID:number, uiLeader:table )
 			end
 		end
 	end
+	
+	-- Accumulated
+	local count = GameSummary.GetDataSetCount();
+	local data_gold = {};
+	local data_science = {};
+	local data_culture = {};
+	local data_faith = {};
+	for i = 0, count - 1, 1 do
+		if(GameSummary.GetDataSetVisible(i) and GameSummary.HasDataSetValues(i)) then
+			local name = GameSummary.GetDataSetName(i);
+			local displayName = GameSummary.GetDataSetDisplayName(i);
+			if name == "REPLAYDATASET_TOTALGOLD" then
+				data_gold = GameSummary.CoalesceDataSet(i, GameConfiguration.GetStartTurn(), Game.GetCurrentGameTurn());
+			end
+			if name == "REPLAYDATASET_SCIENCEPERTURN" then
+				data_science = GameSummary.CoalesceDataSet(i, GameConfiguration.GetStartTurn(), Game.GetCurrentGameTurn());
+			end
+			if name == "REPLAYDATASET_CULTURE" then
+				data_culture = GameSummary.CoalesceDataSet(i, GameConfiguration.GetStartTurn(), Game.GetCurrentGameTurn());
+			end
+			if name == "REPLAYDATASET_FAITHPERTURN" then
+				data_faith = GameSummary.CoalesceDataSet(i, GameConfiguration.GetStartTurn(), Game.GetCurrentGameTurn());
+			end
+		end
+	end
+	
+	if(data_gold ) then
+		for player, turnData in pairs(data_gold ) do
+			-- Ignore barbarian data.
+			if(player == playerID and Players[playerID] and PlayerConfigurations[playerID]:GetLeaderTypeName() ~= "LEADER_SPECTATOR") then
+				local gold = 0
+				local last_gold = 0
+				for turn, value in pairs(turnData) do
+					if tonumber(value) ~= nil then
+						if tonumber(value) < last_gold then
+							gold = gold 
+						else
+							gold = gold + tonumber(value) - last_gold
+						end
+					end
+					last_gold = tonumber(value)
+				end
+				uiLeader.Total_Gold:SetText( "[ICON_Gold] "..math.floor(gold))
+			end
+		end
+	end
+	
+	if(data_science ) then
+		for player, turnData in pairs(data_science ) do
+			-- Ignore barbarian data.
+			if(player == playerID and Players[playerID] and PlayerConfigurations[playerID]:GetLeaderTypeName() ~= "LEADER_SPECTATOR") then
+				local science = 0
+				for turn, value in pairs(turnData) do
+					if (tonumber(value)) ~= nil then
+						science = science + tonumber(value)
+					end
+				end
+				uiLeader.Total_Science:SetText( "[ICON_Science] "..math.floor(science))
+			end
+		end
+	end
+	
+		if(data_culture ) then
+		for player, turnData in pairs(data_culture ) do
+			-- Ignore barbarian data.
+			if(player == playerID and Players[playerID] and PlayerConfigurations[playerID]:GetLeaderTypeName() ~= "LEADER_SPECTATOR") then
+				local culture = 0
+				for turn, value in pairs(turnData) do
+					if (tonumber(value)) ~= nil then
+						culture = culture + tonumber(value)
+					end
+				end
+				uiLeader.Total_Culture:SetText( "[ICON_Culture] "..math.floor(culture))
+			end
+		end
+	end
+	
+	if(data_faith ) then
+		for player, turnData in pairs(data_faith ) do
+			-- Ignore barbarian data.
+			if(player == playerID and Players[playerID] and PlayerConfigurations[playerID]:GetLeaderTypeName() ~= "LEADER_SPECTATOR") then
+				local faith = 0
+				for turn, value in pairs(turnData) do
+					if (tonumber(value)) ~= nil then
+						faith = faith + tonumber(value)
+					end
+				end
+				uiLeader.Total_Faith:SetText( "[ICON_Faith] "..math.floor(faith))
+			end
+		end
+	end
+
 
 end

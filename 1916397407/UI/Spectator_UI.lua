@@ -246,10 +246,18 @@ function OnPantheonFounded(player, belief)
 	end
 end
 
-
+local bCampus = false
+local bHolySite = false
+local bCommercial = false
+local bEncampment = false
+local bTheater = false
+local bIndustrial = false
 
 function OnBuildingAddedToMap( plotX:number, plotY:number, buildingType:number, playerType:number, pctComplete:number, bPillaged:number )
 
+	if Players[playerType] == nil or GameInfo.Buildings[buildingType] == nil then
+		return
+	end
 	if ( Players[playerType]:IsMajor() == true and GameInfo.Buildings[buildingType].IsWonder == true) then
 		local msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_WONDER_STARTED_MESSAGE" );
 		local msg = ""
@@ -258,7 +266,49 @@ function OnBuildingAddedToMap( plotX:number, plotY:number, buildingType:number, 
 	end
 end
 
+function OnDistrictAddedToMap( playerID: number, districtID : number, cityID :number, districtX : number, districtY : number, districtType:number, percentComplete:number )
 
+	local locX = districtX;
+	local locY = districtY;
+	local type = districtType;
+
+	local pPlayer = Players[playerID];
+	if (pPlayer ~= nil) and pPlayer:IsMajor() == true then
+		local pDistrict = pPlayer:GetDistricts():FindID(districtID);
+		if (pDistrict ~= nil) then
+		local name = GameInfo.Districts[pDistrict:GetType()].Name
+
+		local msgString = Locale.Lookup("LOC_BSM_NOTIFICATION_FIRST_DISTRICT_MESSAGE" );
+		local msg = ""
+		msg = Locale.Lookup(PlayerConfigurations[playerID]:GetPlayerName()).." has started to build the world first "..Locale.Lookup(name)
+		if bCampus == false and name == "LOC_DISTRICT_CAMPUS_NAME" then
+			NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.WONDER_COMPLETED, msgString, msg, plotX, plotY);
+			bCampus = true
+		end
+		if bEncampment == false and name == "LOC_DISTRICT_ENCAMPMENT_NAME" then
+			NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.WONDER_COMPLETED, msgString, msg, plotX, plotY);
+			bEncampment = true
+		end
+		if bCommercial == false and name == "LOC_DISTRICT_COMMERCIAL_HUB_NAME" then
+			NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.WONDER_COMPLETED, msgString, msg, plotX, plotY);
+			bCommercial = true
+		end
+		if bTheater == false and name == "LOC_DISTRICT_THEATER_NAME" then
+			NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.WONDER_COMPLETED, msgString, msg, plotX, plotY);
+			bTheater = true
+		end
+		if bHolySite == false and name == "LOC_DISTRICT_HOLY_SITE_NAME" then
+			NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.WONDER_COMPLETED, msgString, msg, plotX, plotY);
+			bHolySite = true
+		end	
+		if bIndustrial == false and name == "LOC_DISTRICT_INDUSTRIAL_ZONE_NAME" then
+			NotificationManager.SendNotification(Game.GetLocalPlayer(), NotificationTypes.WONDER_COMPLETED, msgString, msg, plotX, plotY);
+			bIndustrial = true
+		end		
+		
+		end
+	end
+end
 
 function OnGovernmentChanged( player:number )
 
@@ -545,6 +595,7 @@ function Initialize()
 		Events.GoodyHutReward.Add(									OnGoodyHutReward );
 		Events.LocalPlayerTurnBegin.Add(							OnLocalPlayerTurnBeginNotification );
 		Events.UnitCaptured.Add(									OnUnitCaptured);
+		Events.DistrictAddedToMap.Add (								OnDistrictAddedToMap );
 	end
 
 end

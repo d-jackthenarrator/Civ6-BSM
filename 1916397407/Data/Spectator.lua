@@ -291,6 +291,7 @@ function OnTurnStarted()
 	end
 	Game:SetProperty("SPEC_LAST_ID",id)
 	--print("Turned to Observer: Turn:",currentTurn,"Spec ID:",tmpspecid,"Last Observed ID:",tmpspeclast,"IsLocalObserver?",bspec)
+	
 end
 
 function OnPlayerTurnActivated()

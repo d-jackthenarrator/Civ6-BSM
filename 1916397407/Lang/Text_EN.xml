@@ -156,6 +156,9 @@
 		</Row>			
 		<Row Tag="LOC_BSM_NOTIFICATION_STRONG_GP_MESSAGE" Language="en_US">
 			<Text>Key Great-Person</Text>
+		</Row>	
+		<Row Tag="LOC_BSM_NOTIFICATION_FIRST_DISTRICT_MESSAGE" Language="en_US">
+			<Text>First District</Text>
 		</Row>		
   </LocalizedText>
 </GameData>
