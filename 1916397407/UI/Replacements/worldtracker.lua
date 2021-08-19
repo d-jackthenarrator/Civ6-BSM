@@ -663,12 +663,12 @@ end
 --	Obtains full refresh and views most current research and civic IDs.
 -- ===========================================================================
 function Refresh()
-	local localPlayerID :number = Game.GetLocalPlayer();
+	
 	local localPlayer :number = Game.GetLocalPlayer();
 
-	if (m_bspec == true) and localPlayerID  ~= nil then
-		if (GameConfiguration.GetValue("OBSERVER_ID_"..localPlayerID) ~= nil) and (GameConfiguration.GetValue("OBSERVER_ID_"..localPlayerID) ~= 1000)  and (GameConfiguration.GetValue("OBSERVER_ID_"..localPlayerID) ~= -1) then
-				localPlayer = GameConfiguration.GetValue("OBSERVER_ID_"..localPlayerID )
+	if (m_bspec == true) and localPlayer ~= nil then
+		if (GameConfiguration.GetValue("OBSERVER_ID_"..localPlayer) ~= nil) and (GameConfiguration.GetValue("OBSERVER_ID_"..localPlayer) ~= 1000)  and (GameConfiguration.GetValue("OBSERVER_ID_"..localPlayer) ~= -1) then
+				localPlayer = GameConfiguration.GetValue("OBSERVER_ID_"..localPlayer )
 				m_currentPlayer = localPlayer
 				ToggleAll(false);
 					m_hideCivics = false
@@ -800,10 +800,10 @@ end
 --	but an item deeper in the tree that was just boosted by a player action.
 -- ===========================================================================
 function OnCivicChanged( ePlayer:number, eCivic:number )
-	local localPlayerID = Game.GetLocalPlayer()
+	local localPlayer = Game.GetLocalPlayer()
 	
 
-	if (m_bspec == true) and localPlayerID ~= nil then
+	if (m_bspec == true) and localPlayer ~= nil then
 		return true
 	end		
 	if localPlayer ~= -1 and localPlayer == ePlayer then		
@@ -857,9 +857,11 @@ end
 --	but an item deeper in the tree that was just boosted by a player action.
 -- ===========================================================================
 function OnResearchChanged( ePlayer:number, eTech:number )
+
 	if ShouldUpdateResearchPanel(ePlayer, eTech) then
 		ResetOverflowArrow( m_researchInstance );
 		UpdateResearchPanel();
+
 	end
 end
 
@@ -867,10 +869,10 @@ end
 --	This function was separated so behavior can be modified in mods/expasions
 -- ===========================================================================
 function ShouldUpdateResearchPanel(ePlayer:number, eTech:number)
-	local localPlayerID = Game.GetLocalPlayer()
+	local localPlayer = Game.GetLocalPlayer()
 	
 
-	if (m_bspec == true) and localPlayerID ~= nil then
+	if (m_bspec == true) and localPlayer ~= nil then
 		return true
 	end			
 	
@@ -1144,7 +1146,7 @@ function Subscribe()
 	Events.UnitOperationStarted.Add( OnUnitOperationStarted );
 	Events.UnitRemovedFromMap.Add( OnUnitRemovedFromMap );
 	Events.LoadGameViewStateDone.Add(OnLoadGameViewStateDone);	
-	Events.GameCoreEventPublishComplete.Add ( OnRefresh );													   
+	Events.GameCoreEventPublishComplete.Add( OnRefresh);											   
 
 	LuaEvents.LaunchBar_Resize.Add(OnLaunchBarResized);
 	LuaEvents.DiplomacyRibbon_Click.Add(OnRefresh)	;									   
@@ -1185,7 +1187,7 @@ function Unsubscribe()
 	Events.UnitOperationStarted.Remove( OnUnitOperationStarted );
 	Events.UnitRemovedFromMap.Remove( OnUnitRemovedFromMap );
 	Events.LoadGameViewStateDone.Remove(OnLoadGameViewStateDone);	
-	Events.GameCoreEventPublishComplete.Remove ( OnRefresh )														
+	Events.GameCoreEventPublishComplete.Remove( OnRefresh);													
 
 	LuaEvents.LaunchBar_Resize.Remove(OnLaunchBarResized);
 	LuaEvents.DiplomacyRibbon_Click.Remove(OnRefresh)	
